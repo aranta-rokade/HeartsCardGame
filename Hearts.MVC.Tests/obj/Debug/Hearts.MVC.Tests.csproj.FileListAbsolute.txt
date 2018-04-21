@@ -1,0 +1,2 @@
+C:\Users\arant\Documents\HeartsCardGame\Hearts.MVC.Tests\obj\Debug\Hearts.MVC.Tests.csprojResolveAssemblyReference.cache
+C:\Users\arant\Documents\HeartsCardGame\Hearts.MVC.Tests\obj\Debug\Hearts.MVC.Tests.csproj.CoreCompileInputs.cache

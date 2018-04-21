@@ -23,7 +23,7 @@ namespace Hearts.DAL
             }
         }
 
-        public User Validate(User user)
+        public bool Validate(User user)
         {
             using (var db = new HeartsEntities())
             {
@@ -32,11 +32,11 @@ namespace Hearts.DAL
                 if (u != null)
                 {
                     logger.Info("UserId: {0} - Logged in.", user.UserId);
-                    return u;
+                    return true;
                 }
 
                 logger.Info("User name: {0} - Invalid Credentials.", user.Username);
-                throw new CustomException("Invalid Credentials.");
+                return false;
             }
         }
 

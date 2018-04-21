@@ -17,12 +17,12 @@ C:\Users\arant\Documents\HeartsCardGame\Hearts.DAL\bin\Debug\Hearts.DAL.pdb
 C:\Users\arant\Documents\HeartsCardGame\Hearts.DAL\bin\Debug\EntityFramework.dll
 C:\Users\arant\Documents\HeartsCardGame\Hearts.DAL\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\arant\Documents\HeartsCardGame\Hearts.DAL\bin\Debug\NLog.dll
+C:\Users\arant\Documents\HeartsCardGame\Hearts.DAL\bin\Debug\Utility.dll
+C:\Users\arant\Documents\HeartsCardGame\Hearts.DAL\bin\Debug\Utility.pdb
 C:\Users\arant\Documents\HeartsCardGame\Hearts.DAL\bin\Debug\EntityFramework.xml
 C:\Users\arant\Documents\HeartsCardGame\Hearts.DAL\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\arant\Documents\HeartsCardGame\Hearts.DAL\bin\Debug\NLog.xml
+C:\Users\arant\Documents\HeartsCardGame\Hearts.DAL\obj\Debug\Hearts.DAL.csprojResolveAssemblyReference.cache
 C:\Users\arant\Documents\HeartsCardGame\Hearts.DAL\obj\Debug\Hearts.DAL.csproj.CoreCompileInputs.cache
 C:\Users\arant\Documents\HeartsCardGame\Hearts.DAL\obj\Debug\Hearts.DAL.dll
 C:\Users\arant\Documents\HeartsCardGame\Hearts.DAL\obj\Debug\Hearts.DAL.pdb
-C:\Users\arant\Documents\HeartsCardGame\Hearts.DAL\bin\Debug\Utility.dll
-C:\Users\arant\Documents\HeartsCardGame\Hearts.DAL\bin\Debug\Utility.pdb
-C:\Users\arant\Documents\HeartsCardGame\Hearts.DAL\obj\Debug\Hearts.DAL.csprojResolveAssemblyReference.cache
