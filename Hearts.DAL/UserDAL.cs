@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Utility;
 
 namespace Hearts.DAL
 {
@@ -11,9 +12,9 @@ namespace Hearts.DAL
             using (var db = new HeartsEntities())
             {
                 if (db.Users.FirstOrDefault(x => x.Username.Equals(user.Username)) != null)
-                    throw new Exception("User name already taken.");
+                    throw new CustomException("User name already taken.");
                 if (db.Users.FirstOrDefault(x => x.EmailId.Equals(user.EmailId)) != null)
-                    throw new Exception("Email Id already exists.");
+                    throw new CustomException("Email Id already exists.");
 
                 db.Users.Add(user);
                 db.SaveChanges();
@@ -33,10 +34,23 @@ namespace Hearts.DAL
                     logger.Info("UserId: {0} - Logged in.", user.UserId);
                     return u;
                 }
-                   
 
-                logger.Info("Username: {0} - Invalid Credentials.", user.Username);
-                throw new Exception("Invalid Credentials.");
+                logger.Info("User name: {0} - Invalid Credentials.", user.Username);
+                throw new CustomException("Invalid Credentials.");
+            }
+        }
+
+        public User GetUserByUserName(string userName)
+        {
+            using (var db = new HeartsEntities())
+            {
+                var u = db.Users.FirstOrDefault(x =>
+                        x.Username.Equals(userName));
+                if (u == null)
+                {
+                    logger.Info("User name: {0} - Not found.", userName);
+                }
+                return u;
             }
         }
     }

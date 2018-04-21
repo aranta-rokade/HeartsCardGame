@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HeartsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Game">
+    <Key>
+      <PropertyRef Name="GameId" />
+    </Key>
+    <Property Name="GameId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Status" Type="int" Nullable="false" />
+    <Property Name="Player1" Type="int" Nullable="false" />
+    <Property Name="Player2" Type="int" />
+    <Property Name="Player3" Type="int" />
+    <Property Name="Player4" Type="int" />
+    <Property Name="Player1Score" Type="int" Nullable="false" />
+    <Property Name="Player2Score" Type="int" Nullable="false" />
+    <Property Name="Player3Score" Type="int" Nullable="false" />
+    <Property Name="Player4Score" Type="int" Nullable="false" />
+    <Property Name="StartTime" Type="datetime" Nullable="false" />
+    <Property Name="EndTime" Type="datetime" />
+  </EntityType>
+  <EntityType Name="Move">
+    <Key>
+      <PropertyRef Name="MoveId" />
+    </Key>
+    <Property Name="MoveId" Type="int" Nullable="false" />
+    <Property Name="PlayerId" Type="int" Nullable="false" />
+    <Property Name="Move" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Time" Type="datetime" Nullable="false" />
+    <Property Name="GameId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="Wins" Type="int" Nullable="false" />
+    <Property Name="Draws" Type="int" Nullable="false" />
+    <Property Name="Losses" Type="int" Nullable="false" />
+    <Property Name="ActiveGameId" Type="int" />
+    <Property Name="EmailId" Type="nvarchar" MaxLength="320" Nullable="false" />
+    <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="LastModifiedTime" Type="datetime" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_Game_Player1">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Game" Type="Self.Game" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Game">
+        <PropertyRef Name="Player1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Game_Player2">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Game" Type="Self.Game" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Game">
+        <PropertyRef Name="Player2" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Game_Player3">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Game" Type="Self.Game" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Game">
+        <PropertyRef Name="Player3" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Game_Player4">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Game" Type="Self.Game" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Game">
+        <PropertyRef Name="Player4" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Move_Game">
+    <End Role="Game" Type="Self.Game" Multiplicity="1" />
+    <End Role="Move" Type="Self.Move" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Game">
+        <PropertyRef Name="GameId" />
+      </Principal>
+      <Dependent Role="Move">
+        <PropertyRef Name="GameId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Move_Player">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Move" Type="Self.Move" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Move">
+        <PropertyRef Name="PlayerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_ActiveGame">
+    <End Role="Game" Type="Self.Game" Multiplicity="0..1" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Game">
+        <PropertyRef Name="GameId" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="ActiveGameId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="HeartsModelStoreContainer">
+    <EntitySet Name="Game" EntityType="Self.Game" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Move" EntityType="Self.Move" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Game_Player1" Association="Self.FK_Game_Player1">
+      <End Role="User" EntitySet="User" />
+      <End Role="Game" EntitySet="Game" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Game_Player2" Association="Self.FK_Game_Player2">
+      <End Role="User" EntitySet="User" />
+      <End Role="Game" EntitySet="Game" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Game_Player3" Association="Self.FK_Game_Player3">
+      <End Role="User" EntitySet="User" />
+      <End Role="Game" EntitySet="Game" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Game_Player4" Association="Self.FK_Game_Player4">
+      <End Role="User" EntitySet="User" />
+      <End Role="Game" EntitySet="Game" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Move_Game" Association="Self.FK_Move_Game">
+      <End Role="Game" EntitySet="Game" />
+      <End Role="Move" EntitySet="Move" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Move_Player" Association="Self.FK_Move_Player">
+      <End Role="User" EntitySet="User" />
+      <End Role="Move" EntitySet="Move" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_ActiveGame" Association="Self.FK_User_ActiveGame">
+      <End Role="Game" EntitySet="Game" />
+      <End Role="User" EntitySet="User" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

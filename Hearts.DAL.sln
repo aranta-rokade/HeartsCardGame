@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "Utility\Utility.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hearts.BAL", "Hearts.BAL\Hearts.BAL.csproj", "{1AE5DB21-A691-462C-9F59-EF2E018EDFA0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hearts.ViewModel", "Hearts.ViewModel\Hearts.ViewModel.csproj", "{F4FB916B-234E-49C0-ADC8-5C2C7F180A46}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{1AE5DB21-A691-462C-9F59-EF2E018EDFA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AE5DB21-A691-462C-9F59-EF2E018EDFA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AE5DB21-A691-462C-9F59-EF2E018EDFA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4FB916B-234E-49C0-ADC8-5C2C7F180A46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4FB916B-234E-49C0-ADC8-5C2C7F180A46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4FB916B-234E-49C0-ADC8-5C2C7F180A46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4FB916B-234E-49C0-ADC8-5C2C7F180A46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

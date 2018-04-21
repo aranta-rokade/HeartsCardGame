@@ -6,3 +6,11 @@ c:\Users\arant\source\repos\Hearts.DAL\Utility\obj\Debug\Utility.csprojResolveAs
 c:\Users\arant\source\repos\Hearts.DAL\Utility\obj\Debug\Utility.csproj.CoreCompileInputs.cache
 c:\Users\arant\source\repos\Hearts.DAL\Utility\obj\Debug\Utility.dll
 c:\Users\arant\source\repos\Hearts.DAL\Utility\obj\Debug\Utility.pdb
+C:\Users\arant\Documents\HeartsCardGame\Utility\bin\Debug\Utility.dll
+C:\Users\arant\Documents\HeartsCardGame\Utility\bin\Debug\Utility.pdb
+C:\Users\arant\Documents\HeartsCardGame\Utility\bin\Debug\NLog.dll
+C:\Users\arant\Documents\HeartsCardGame\Utility\bin\Debug\NLog.xml
+C:\Users\arant\Documents\HeartsCardGame\Utility\obj\Debug\Utility.csprojResolveAssemblyReference.cache
+C:\Users\arant\Documents\HeartsCardGame\Utility\obj\Debug\Utility.csproj.CoreCompileInputs.cache
+C:\Users\arant\Documents\HeartsCardGame\Utility\obj\Debug\Utility.dll
+C:\Users\arant\Documents\HeartsCardGame\Utility\obj\Debug\Utility.pdb

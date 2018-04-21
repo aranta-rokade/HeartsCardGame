@@ -1,4 +1,4 @@
-﻿using Hearts.DAL;
+﻿using Hearts.BAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +11,33 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            UserDAL u_dal = new Hearts.DAL.UserDAL();
-            u_dal.Validate( new User { Username= "sampl", Password= "xxxxx" });
+            UserBAL u_bal = new UserBAL();
+            try
+            {
+                var user = u_bal.ValidateUser("sampl", "xxxx");
+                if (user == null)
+                    Console.WriteLine("Invalid Credentials");
+                else
+                    Console.WriteLine("Welcome, {0}!", user.UserName);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            //UserBAL u_bal = new UserBAL();
+            //try
+            //{
+            //    var user = u_bal.AddUser("sampl", "sample@host.com", "xxxxx");
+            //    if (user != null)
+            //        Console.WriteLine("User Created");
+            //    else
+            //        Console.WriteLine("not created.");
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e.Message);
+            //}
         }
     }
 }

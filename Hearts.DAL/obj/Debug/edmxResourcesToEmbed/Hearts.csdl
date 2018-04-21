@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HeartsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Game">
+    <Key>
+      <PropertyRef Name="GameId" />
+    </Key>
+    <Property Name="GameId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Status" Type="Int32" Nullable="false" />
+    <Property Name="Player1" Type="Int32" Nullable="false" />
+    <Property Name="Player2" Type="Int32" />
+    <Property Name="Player3" Type="Int32" />
+    <Property Name="Player4" Type="Int32" />
+    <Property Name="Player1Score" Type="Int32" Nullable="false" />
+    <Property Name="Player2Score" Type="Int32" Nullable="false" />
+    <Property Name="Player3Score" Type="Int32" Nullable="false" />
+    <Property Name="Player4Score" Type="Int32" Nullable="false" />
+    <Property Name="StartTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EndTime" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Game_Player1" FromRole="Game" ToRole="User" />
+    <NavigationProperty Name="User1" Relationship="Self.FK_Game_Player2" FromRole="Game" ToRole="User" />
+    <NavigationProperty Name="User2" Relationship="Self.FK_Game_Player3" FromRole="Game" ToRole="User" />
+    <NavigationProperty Name="User3" Relationship="Self.FK_Game_Player4" FromRole="Game" ToRole="User" />
+    <NavigationProperty Name="Moves" Relationship="Self.FK_Move_Game" FromRole="Game" ToRole="Move" />
+    <NavigationProperty Name="Users" Relationship="Self.FK_User_ActiveGame" FromRole="Game" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Move">
+    <Key>
+      <PropertyRef Name="MoveId" />
+    </Key>
+    <Property Name="MoveId" Type="Int32" Nullable="false" />
+    <Property Name="PlayerId" Type="Int32" Nullable="false" />
+    <Property Name="Move1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="GameId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Game" Relationship="Self.FK_Move_Game" FromRole="Move" ToRole="Game" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Move_Player" FromRole="Move" ToRole="User" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Password" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Wins" Type="Int32" Nullable="false" />
+    <Property Name="Draws" Type="Int32" Nullable="false" />
+    <Property Name="Losses" Type="Int32" Nullable="false" />
+    <Property Name="ActiveGameId" Type="Int32" />
+    <Property Name="EmailId" Type="String" MaxLength="320" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastModifiedTime" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Games" Relationship="Self.FK_Game_Player1" FromRole="User" ToRole="Game" />
+    <NavigationProperty Name="Games1" Relationship="Self.FK_Game_Player2" FromRole="User" ToRole="Game" />
+    <NavigationProperty Name="Games2" Relationship="Self.FK_Game_Player3" FromRole="User" ToRole="Game" />
+    <NavigationProperty Name="Games3" Relationship="Self.FK_Game_Player4" FromRole="User" ToRole="Game" />
+    <NavigationProperty Name="Game" Relationship="Self.FK_User_ActiveGame" FromRole="User" ToRole="Game" />
+    <NavigationProperty Name="Moves" Relationship="Self.FK_Move_Player" FromRole="User" ToRole="Move" />
+  </EntityType>
+  <Association Name="FK_Game_Player1">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Game" Type="Self.Game" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Game">
+        <PropertyRef Name="Player1" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Game_Player2">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Game" Type="Self.Game" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Game">
+        <PropertyRef Name="Player2" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Game_Player3">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Game" Type="Self.Game" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Game">
+        <PropertyRef Name="Player3" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Game_Player4">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Game" Type="Self.Game" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Game">
+        <PropertyRef Name="Player4" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Move_Game">
+    <End Role="Game" Type="Self.Game" Multiplicity="1" />
+    <End Role="Move" Type="Self.Move" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Game">
+        <PropertyRef Name="GameId" />
+      </Principal>
+      <Dependent Role="Move">
+        <PropertyRef Name="GameId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_User_ActiveGame">
+    <End Role="Game" Type="Self.Game" Multiplicity="0..1" />
+    <End Role="User" Type="Self.User" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Game">
+        <PropertyRef Name="GameId" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="ActiveGameId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Move_Player">
+    <End Role="User" Type="Self.User" Multiplicity="1" />
+    <End Role="Move" Type="Self.Move" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="Move">
+        <PropertyRef Name="PlayerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="HeartsEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Games" EntityType="Self.Game" />
+    <EntitySet Name="Moves" EntityType="Self.Move" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK_Game_Player1" Association="Self.FK_Game_Player1">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Game" EntitySet="Games" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Game_Player2" Association="Self.FK_Game_Player2">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Game" EntitySet="Games" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Game_Player3" Association="Self.FK_Game_Player3">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Game" EntitySet="Games" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Game_Player4" Association="Self.FK_Game_Player4">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Game" EntitySet="Games" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Move_Game" Association="Self.FK_Move_Game">
+      <End Role="Game" EntitySet="Games" />
+      <End Role="Move" EntitySet="Moves" />
+    </AssociationSet>
+    <AssociationSet Name="FK_User_ActiveGame" Association="Self.FK_User_ActiveGame">
+      <End Role="Game" EntitySet="Games" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Move_Player" Association="Self.FK_Move_Player">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Move" EntitySet="Moves" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,5 @@
+C:\Users\arant\Documents\HeartsCardGame\Hearts.ViewModel\bin\Debug\Hearts.ViewModel.dll
+C:\Users\arant\Documents\HeartsCardGame\Hearts.ViewModel\bin\Debug\Hearts.ViewModel.pdb
+C:\Users\arant\Documents\HeartsCardGame\Hearts.ViewModel\obj\Debug\Hearts.ViewModel.csproj.CoreCompileInputs.cache
+C:\Users\arant\Documents\HeartsCardGame\Hearts.ViewModel\obj\Debug\Hearts.ViewModel.dll
+C:\Users\arant\Documents\HeartsCardGame\Hearts.ViewModel\obj\Debug\Hearts.ViewModel.pdb

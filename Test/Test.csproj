@@ -69,9 +69,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Hearts.DAL\Hearts.DAL.csproj">
-      <Project>{e2038381-b663-445d-9a3c-d0030baaacc2}</Project>
-      <Name>Hearts.DAL</Name>
+    <ProjectReference Include="..\Hearts.BAL\Hearts.BAL.csproj">
+      <Project>{1ae5db21-a691-462c-9f59-ef2e018edfa0}</Project>
+      <Name>Hearts.BAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Hearts.ViewModel\Hearts.ViewModel.csproj">
+      <Project>{f4fb916b-234e-49c0-adc8-5c2c7f180a46}</Project>
+      <Name>Hearts.ViewModel</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utility\Utility.csproj">
       <Project>{179f1f44-a6ff-4425-a3f3-7801219605aa}</Project>

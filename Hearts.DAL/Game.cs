@@ -17,16 +17,16 @@ namespace Hearts.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Game()
         {
-            this.Users = new HashSet<User>();
             this.Moves = new HashSet<Move>();
+            this.Users = new HashSet<User>();
         }
     
         public int GameId { get; set; }
         public int Status { get; set; }
         public int Player1 { get; set; }
-        public int Player2 { get; set; }
-        public int Player3 { get; set; }
-        public int Player4 { get; set; }
+        public Nullable<int> Player2 { get; set; }
+        public Nullable<int> Player3 { get; set; }
+        public Nullable<int> Player4 { get; set; }
         public int Player1Score { get; set; }
         public int Player2Score { get; set; }
         public int Player3Score { get; set; }
@@ -39,8 +39,8 @@ namespace Hearts.DAL
         public virtual User User2 { get; set; }
         public virtual User User3 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> Users { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Move> Moves { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<User> Users { get; set; }
     }
 }
