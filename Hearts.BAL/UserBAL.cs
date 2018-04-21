@@ -24,7 +24,7 @@ namespace Hearts.BAL
                     Password = password,
                     LastModifiedTime = DateTime.Now
                 });
-                return new LoginModel{ UserName = user.Username};
+                return new LoginModel{ UserName = user.Username, EmailId = user.EmailId};
             }
             catch (CustomException e)
             {
@@ -32,7 +32,7 @@ namespace Hearts.BAL
             }
             catch (Exception e)
             {
-                //logger.Error(e);
+                //TODO: logger.Error(e);
                 throw new Exception("Oops! Some error occured.");
             }
             
@@ -45,7 +45,7 @@ namespace Hearts.BAL
                 //TODO: Password Hashing
                 UserDAL udal = new UserDAL();
                 var user = udal.Validate(new User { Username = username, Password = password });
-                return new LoginModel { UserName = user.Username };
+                return new LoginModel { UserName = user.Username, EmailId = user.EmailId };
             }
             catch (CustomException e)
             {

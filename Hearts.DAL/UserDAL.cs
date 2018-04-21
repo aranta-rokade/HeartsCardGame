@@ -40,6 +40,21 @@ namespace Hearts.DAL
             }
         }
 
+        public User GetUserById(int userId)
+        {
+            using (var db = new HeartsEntities())
+            {
+                var u = db.Users.FirstOrDefault(x =>
+                        x.UserId.Equals(userId));
+                if (u == null)
+                {
+                    logger.Info("UserId: {0} - Not found.", userId);
+                    throw new CustomException("Invalid User");
+                }
+                return u;
+            }
+        }
+
         public User GetUserByUserName(string userName)
         {
             using (var db = new HeartsEntities())
@@ -49,8 +64,36 @@ namespace Hearts.DAL
                 if (u == null)
                 {
                     logger.Info("User name: {0} - Not found.", userName);
+                    throw new CustomException("Invalid User");
                 }
                 return u;
+            }
+        }
+
+        public bool UpdateActiveGame(int userId, int? gameId)
+        {
+            using (var db = new HeartsEntities())
+            {
+                var user = db.Users.FirstOrDefault(x =>
+                        x.UserId.Equals(userId));
+
+                if (gameId != null)
+                {
+                    var game = db.Games.FirstOrDefault(x =>
+                          x.GameId == gameId);
+                    if (game == null)
+                        throw new CustomException("Invalid Game.");
+                }
+
+                if (user == null)
+                {
+                    logger.Info("User name: {0} - Not found.", userId);
+                    throw new CustomException("Invalid User");
+                }
+
+                user.ActiveGameId = gameId;
+                db.SaveChanges();
+                return true;
             }
         }
     }
