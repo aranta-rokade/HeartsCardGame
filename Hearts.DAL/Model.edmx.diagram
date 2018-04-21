@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3a55bf14b90b43bebfe60b095523750f" Name="Diagram1">
+        <EntityTypeShape EntityType="HeartsModel.Game" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="HeartsModel.User" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <AssociationConnector Association="HeartsModel.FK_Game_Player1" ManuallyRouted="false" />
+        <AssociationConnector Association="HeartsModel.FK_Game_Player2" ManuallyRouted="false" />
+        <AssociationConnector Association="HeartsModel.FK_Game_Player3" ManuallyRouted="false" />
+        <AssociationConnector Association="HeartsModel.FK_Game_Player4" ManuallyRouted="false" />
+        <AssociationConnector Association="HeartsModel.FK_User_ActiveGame" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="HeartsModel.Move" Width="1.5" PointX="5.375" PointY="0.75" />
+        <AssociationConnector Association="HeartsModel.FK_Move_Game" />
+        <AssociationConnector Association="HeartsModel.FK_Move_Player" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

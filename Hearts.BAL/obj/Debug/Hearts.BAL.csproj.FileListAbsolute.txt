@@ -1,0 +1,15 @@
+c:\Users\arant\source\repos\Hearts.DAL\Hearts.BAL\bin\Debug\Hearts.BAL.dll
+c:\Users\arant\source\repos\Hearts.DAL\Hearts.BAL\bin\Debug\Hearts.BAL.pdb
+c:\Users\arant\source\repos\Hearts.DAL\Hearts.BAL\bin\Debug\Hearts.DAL.dll
+c:\Users\arant\source\repos\Hearts.DAL\Hearts.BAL\bin\Debug\Utility.dll
+c:\Users\arant\source\repos\Hearts.DAL\Hearts.BAL\bin\Debug\NLog.dll
+c:\Users\arant\source\repos\Hearts.DAL\Hearts.BAL\bin\Debug\EntityFramework.dll
+c:\Users\arant\source\repos\Hearts.DAL\Hearts.BAL\bin\Debug\Hearts.DAL.pdb
+c:\Users\arant\source\repos\Hearts.DAL\Hearts.BAL\bin\Debug\Hearts.DAL.dll.config
+c:\Users\arant\source\repos\Hearts.DAL\Hearts.BAL\bin\Debug\Utility.pdb
+c:\Users\arant\source\repos\Hearts.DAL\Hearts.BAL\bin\Debug\NLog.xml
+c:\Users\arant\source\repos\Hearts.DAL\Hearts.BAL\bin\Debug\EntityFramework.xml
+c:\Users\arant\source\repos\Hearts.DAL\Hearts.BAL\obj\Debug\Hearts.BAL.csprojResolveAssemblyReference.cache
+c:\Users\arant\source\repos\Hearts.DAL\Hearts.BAL\obj\Debug\Hearts.BAL.csproj.CoreCompileInputs.cache
+c:\Users\arant\source\repos\Hearts.DAL\Hearts.BAL\obj\Debug\Hearts.BAL.dll
+c:\Users\arant\source\repos\Hearts.DAL\Hearts.BAL\obj\Debug\Hearts.BAL.pdb

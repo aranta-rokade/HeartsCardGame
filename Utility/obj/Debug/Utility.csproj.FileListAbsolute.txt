@@ -1,0 +1,8 @@
+c:\Users\arant\source\repos\Hearts.DAL\Utility\bin\Debug\Utility.dll
+c:\Users\arant\source\repos\Hearts.DAL\Utility\bin\Debug\Utility.pdb
+c:\Users\arant\source\repos\Hearts.DAL\Utility\bin\Debug\NLog.dll
+c:\Users\arant\source\repos\Hearts.DAL\Utility\bin\Debug\NLog.xml
+c:\Users\arant\source\repos\Hearts.DAL\Utility\obj\Debug\Utility.csprojResolveAssemblyReference.cache
+c:\Users\arant\source\repos\Hearts.DAL\Utility\obj\Debug\Utility.csproj.CoreCompileInputs.cache
+c:\Users\arant\source\repos\Hearts.DAL\Utility\obj\Debug\Utility.dll
+c:\Users\arant\source\repos\Hearts.DAL\Utility\obj\Debug\Utility.pdb
