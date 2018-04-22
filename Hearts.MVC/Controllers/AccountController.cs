@@ -35,7 +35,7 @@ namespace Hearts.MVC.Controllers
                 if (u_bal.ValidateUser(model.UserName, model.Password))
                 {
                     UserModel user = u_bal.GetUser(model.UserName);
-                    Session["UserID"] = user.UserId.ToString();
+                    Session["UserId"] = user.UserId.ToString();
                     Session["UserName"] = user.UserName.ToString();
 
                     //var ident = new ClaimsIdentity(
@@ -116,6 +116,44 @@ namespace Hearts.MVC.Controllers
                 return View();
             }
             
+        }
+
+        // GET: /Account
+        public ActionResult Index()
+        {
+            try
+            {
+                UserBAL u_bal = new UserBAL();
+                UserModel user = u_bal.GetUser(Convert.ToInt16((Session["UserId"].ToString())));
+                return View(user);
+            }
+            catch (Exception e)
+            {
+                TempData["IsSuccess"] = "danger";
+                TempData["Message"] = e.Message;
+                ModelState.AddModelError("", e.Message);
+                return View();
+            }
+        }
+
+        // GET: /Account/Logout
+        public ActionResult Logout()
+        {
+            try
+            {
+                Session["UserId"] = "";
+                Session["UserName"] = "";
+                TempData["IsSuccess"] = "success";
+                TempData["Message"] = "You have successfully logged out of the system.";
+                return RedirectToAction("Index","Home");
+            }
+            catch (Exception e)
+            {
+                TempData["IsSuccess"] = "danger";
+                TempData["Message"] = e.Message;
+                ModelState.AddModelError("", e.Message);
+                return View();
+            }
         }
     }
 }

@@ -62,6 +62,7 @@
     <NavigationProperty Name="Games3" Relationship="Self.FK_Game_Player4" FromRole="User" ToRole="Game" />
     <NavigationProperty Name="Game" Relationship="Self.FK_User_ActiveGame" FromRole="User" ToRole="Game" />
     <NavigationProperty Name="Moves" Relationship="Self.FK_Move_Player" FromRole="User" ToRole="Move" />
+    <Property Name="Points" Type="Int32" Nullable="false" />
   </EntityType>
   <Association Name="FK_Game_Player1">
     <End Role="User" Type="Self.User" Multiplicity="1" />

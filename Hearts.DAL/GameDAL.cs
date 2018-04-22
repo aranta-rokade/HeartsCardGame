@@ -23,6 +23,7 @@ namespace Hearts.DAL
                 return game;
             }
         }
+
         public int AddGame(int player1)
         {
             using (var db = new HeartsEntities())
@@ -67,6 +68,28 @@ namespace Hearts.DAL
                     throw new CustomException("Invalid user.");
                 db.SaveChanges();
                 return g;
+            }
+        }
+
+        public List<Game> GetAllWaitingGames() {
+            using (var db = new HeartsEntities())
+            {
+                return db.Games
+                    .Where(x=>x.Status == (int)GameStatus.Waiting)
+                    .ToList();
+            }
+        }
+
+        public Game GetActiveGame(int playerId)
+        {
+            using (var db = new HeartsEntities())
+            {
+                return db.Games
+                    .FirstOrDefault(x => 
+                        x.Player1 == playerId || 
+                        x.Player2.GetValueOrDefault(0) == playerId ||
+                        x.Player3.GetValueOrDefault(0) == playerId ||
+                        x.Player4.GetValueOrDefault(0) == playerId);
             }
         }
     }

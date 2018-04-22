@@ -56,7 +56,7 @@ namespace Hearts.ViewModel
             Garbage = new List<Card>();
             PassOrSelect = true;
             Hand = new List<Card>();
-            SelectedCards = new List<Card>();
+            CardsToPass = new List<Card>();
             UserId = userId;
             UserName = username;
         }

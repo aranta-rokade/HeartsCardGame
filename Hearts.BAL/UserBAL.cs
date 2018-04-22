@@ -77,7 +77,8 @@ namespace Hearts.BAL
                     Draws = user.Draws,
                     Losses = user.Losses,
                     ActiveGameId = user.ActiveGameId,
-                    LastModifiedTime = user.LastModifiedTime
+                    LastModifiedTime = user.LastModifiedTime,
+                    Points = user.Points
                 };
             }
             catch (CustomException e)

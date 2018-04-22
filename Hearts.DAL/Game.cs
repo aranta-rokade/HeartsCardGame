@@ -51,12 +51,11 @@ namespace Hearts.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> Users { get; set; }
     }
-
-    public enum GameStatus
-    {
-        Waiting,
-        Started,
-        Aborted,
-        Ended
-    }
+}
+public enum GameStatus
+{
+    Waiting,
+    Started,
+    Aborted,
+    Ended
 }

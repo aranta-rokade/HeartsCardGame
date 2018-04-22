@@ -53,6 +53,7 @@
           <Property Name="EmailId" Type="nvarchar" MaxLength="320" Nullable="false" />
           <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LastModifiedTime" Type="datetime" Nullable="false" />
+          <Property Name="Points" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Game_Player1">
           <End Role="User" Type="Self.User" Multiplicity="1" />
@@ -237,6 +238,7 @@
           <NavigationProperty Name="Games3" Relationship="Self.FK_Game_Player4" FromRole="User" ToRole="Game" />
           <NavigationProperty Name="Game" Relationship="Self.FK_User_ActiveGame" FromRole="User" ToRole="Game" />
           <NavigationProperty Name="Moves" Relationship="Self.FK_Move_Player" FromRole="User" ToRole="Move" />
+          <Property Name="Points" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_Game_Player1">
           <End Role="User" Type="Self.User" Multiplicity="1" />
@@ -401,6 +403,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="HeartsModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Points" ColumnName="Points" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Wins" ColumnName="Wins" />

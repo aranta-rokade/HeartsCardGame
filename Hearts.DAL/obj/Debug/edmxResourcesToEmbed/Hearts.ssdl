@@ -48,6 +48,7 @@
     <Property Name="EmailId" Type="nvarchar" MaxLength="320" Nullable="false" />
     <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="LastModifiedTime" Type="datetime" Nullable="false" />
+    <Property Name="Points" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="FK_Game_Player1">
     <End Role="User" Type="Self.User" Multiplicity="1" />

@@ -33,6 +33,7 @@ namespace Hearts.DAL
         public string EmailId { get; set; }
         public string Username { get; set; }
         public System.DateTime LastModifiedTime { get; set; }
+        public int Points { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Game> Games { get; set; }

@@ -1,6 +1,7 @@
 ﻿using Hearts.DAL;
 using Hearts.ViewModel;
 using System;
+using System.Collections.Generic;
 using Utility;
 
 namespace Hearts.BAL
@@ -25,7 +26,6 @@ namespace Hearts.BAL
                 //TODO: logger.Error(e);
                 throw new Exception("Oops! Some error occured.");
             }
-
         }
 
         public string JoinGame(int gameId, int playerid)
@@ -86,6 +86,58 @@ namespace Hearts.BAL
                 //TODO: logger.Error(e);
                 throw new Exception("Oops! Some error occured.");
             }
+        }
+
+        public List<GameModel> GetAllWaitingGames(int playerId)
+        {
+            try
+            {
+                GameDAL gdal = new GameDAL();
+                UserDAL udal = new UserDAL();
+                var games = gdal.GetAllWaitingGames();
+                List<GameModel> waiting_game = new List<GameModel>();
+
+                foreach (var game in games)
+                {
+                    var new_game = new GameModel
+                    {
+                        //TODO: hash the game id and return game url
+                        GameId = game.GameId,
+                        Status = game.Status,
+                        EndTime = game.EndTime,
+                        StartTime = game.StartTime
+                    };
+                    var player = udal.GetUserById(game.Player1);
+                    new_game.Player1 = new Player(player.UserId, player.Username);
+                    if (game.Player2 != null) {
+                        player = udal.GetUserById(game.Player2.Value);
+                        new_game.Player2 = new Player(player.UserId, player.Username);
+                    }
+                    if (game.Player3 != null)
+                    {
+                        player = udal.GetUserById(game.Player3.Value);
+                        new_game.Player3 = new Player(player.UserId, player.Username);
+                    }
+                    if (game.Player4 != null)
+                    {
+                        player = udal.GetUserById(game.Player4.Value);
+                        new_game.Player4 = new Player(player.UserId, player.Username);
+                    }
+                    waiting_game.Add(new_game);
+                }
+                return waiting_game;
+                
+            }
+            catch (CustomException e)
+            {
+                throw new CustomException(e.Message);
+            }
+            catch (Exception e)
+            {
+                //TODO: logger.Error(e);
+                throw new Exception("Oops! Some error occured.");
+            }
+
         }
     }
 }

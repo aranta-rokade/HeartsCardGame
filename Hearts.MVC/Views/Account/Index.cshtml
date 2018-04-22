@@ -1,0 +1,71 @@
+﻿@model Hearts.ViewModel.UserModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>User Details</h2>
+
+<div>
+    <h4>Your profile description.</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmailId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Wins)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Wins)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Draws)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Draws)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Losses)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Losses)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ActiveGameId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActiveGameId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Points)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Points)
+        </dd>
+
+    </dl>
+</div>

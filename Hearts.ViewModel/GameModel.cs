@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,21 +10,29 @@ namespace Hearts.ViewModel
 {
     public class GameModel
     {
+        [Key]
         public int GameId { get; set; }
 
+        [Display(Name = "Status")]
         public int Status { get; set; }
 
+        [Display(Name = "Player 1")]
         public Player Player1 { get; set; }
 
+        [Display(Name = "Player 2")]
         public Player Player2 { get; set; }
 
+        [Display(Name = "Player 3")]
         public Player Player3 { get; set; }
 
+        [Display(Name = "Player 4")]
         public Player Player4 { get; set; }
 
-        public System.DateTime StartTime { get; set; }
+        [Display(Name = "Start Time")]
+        public DateTime StartTime { get; set; }
 
-        public Nullable<System.DateTime> EndTime { get; set; }
+        [Display(Name = "End Time")]
+        public DateTime? EndTime { get; set; }
 
         List<Card> Deck;
 

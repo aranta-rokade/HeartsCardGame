@@ -41,6 +41,7 @@
     <EntitySetMapping Name="Users">
       <EntityTypeMapping TypeName="HeartsModel.User">
         <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="Points" ColumnName="Points" />
           <ScalarProperty Name="UserId" ColumnName="UserId" />
           <ScalarProperty Name="Password" ColumnName="Password" />
           <ScalarProperty Name="Wins" ColumnName="Wins" />
