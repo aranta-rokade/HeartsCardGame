@@ -27,5 +27,7 @@ namespace Hearts.ViewModel
         [DataType(DataType.Password)]
         [Compare("Password")]
         public string ConfirmPassword { get; set; }
+
+        public bool isSuccess { get; set; }
     }
 }

@@ -24,8 +24,48 @@
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
+                @if (Session["UserName"] != null)
+                {
+                    <ul class="nav navbar-nav" style="float:right">
+                        <li style="color:white">Welcome @Session["UserName"].ToString()</li>
+                    </ul>
+                }
+                else {
+                    <ul class="nav navbar-nav" style="float:right">
+                        <li>@Html.ActionLink("Login", "Login", "Account")</li>
+                    </ul>
+                }
             </div>
         </div>
+    </div>
+    <div>
+        @if (TempData["IsSuccess"] != null)
+        {
+            if (TempData["IsSuccess"].ToString().Equals("success"))
+            {
+                <div class="alert alert-success" role="alert">
+                    <strong>Success!</strong> @TempData["Message"]
+                </div>
+            }
+            else if (TempData["IsSuccess"].ToString().Equals("danger"))
+            {
+                <div class="alert alert-danger" role="alert">
+                    <strong>Error!</strong> @TempData["Message"]
+                </div>
+            }
+            else if (TempData["IsSuccess"].ToString().Equals("warning"))
+            {
+                <div class="alert alert-warning" role="alert">
+                    <strong>Warning!</strong> @TempData["Message"]
+                </div>
+            }
+            else if (TempData["IsSuccess"].ToString().Equals("primary"))
+            {
+                <div class="alert alert-primary" role="alert">
+                    <strong>Info!</strong> @TempData["Message"]
+                </div>
+            }
+        }
     </div>
     <div class="container body-content">
         @RenderBody()
@@ -34,6 +74,7 @@
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
+
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
