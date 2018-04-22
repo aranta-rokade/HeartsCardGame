@@ -16,6 +16,14 @@
     <Property Name="Player4Score" Type="int" Nullable="false" />
     <Property Name="StartTime" Type="datetime" Nullable="false" />
     <Property Name="EndTime" Type="datetime" />
+    <Property Name="Player1Hand" Type="nvarchar" MaxLength="100" />
+    <Property Name="Player2Hand" Type="nvarchar" MaxLength="100" />
+    <Property Name="Player3Hand" Type="nvarchar" MaxLength="100" />
+    <Property Name="Player4Hand" Type="nvarchar" MaxLength="100" />
+    <Property Name="Player1Stash" Type="nvarchar" MaxLength="300" />
+    <Property Name="Player2Stash" Type="nvarchar" MaxLength="300" />
+    <Property Name="Player3Stash" Type="nvarchar" MaxLength="300" />
+    <Property Name="Player4Stash" Type="nvarchar" MaxLength="300" />
   </EntityType>
   <EntityType Name="Move">
     <Key>

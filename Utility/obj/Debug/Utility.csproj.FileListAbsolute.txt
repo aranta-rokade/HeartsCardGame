@@ -13,4 +13,3 @@ C:\Users\arant\Documents\HeartsCardGame\Utility\bin\Debug\NLog.xml
 C:\Users\arant\Documents\HeartsCardGame\Utility\obj\Debug\Utility.csproj.CoreCompileInputs.cache
 C:\Users\arant\Documents\HeartsCardGame\Utility\obj\Debug\Utility.dll
 C:\Users\arant\Documents\HeartsCardGame\Utility\obj\Debug\Utility.pdb
-C:\Users\arant\Documents\HeartsCardGame\Utility\obj\Debug\Utility.csprojResolveAssemblyReference.cache

@@ -4,6 +4,14 @@
     <EntitySetMapping Name="Games">
       <EntityTypeMapping TypeName="HeartsModel.Game">
         <MappingFragment StoreEntitySet="Game">
+          <ScalarProperty Name="Player4Stash" ColumnName="Player4Stash" />
+          <ScalarProperty Name="Player3Stash" ColumnName="Player3Stash" />
+          <ScalarProperty Name="Player2Stash" ColumnName="Player2Stash" />
+          <ScalarProperty Name="Player1Stash" ColumnName="Player1Stash" />
+          <ScalarProperty Name="Player4Hand" ColumnName="Player4Hand" />
+          <ScalarProperty Name="Player3Hand" ColumnName="Player3Hand" />
+          <ScalarProperty Name="Player2Hand" ColumnName="Player2Hand" />
+          <ScalarProperty Name="Player1Hand" ColumnName="Player1Hand" />
           <ScalarProperty Name="GameId" ColumnName="GameId" />
           <ScalarProperty Name="Status" ColumnName="Status" />
           <ScalarProperty Name="Player1" ColumnName="Player1" />

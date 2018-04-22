@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="HeartsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="HeartsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Game">
           <Key>
             <PropertyRef Name="GameId" />
@@ -21,6 +21,14 @@
           <Property Name="Player4Score" Type="int" Nullable="false" />
           <Property Name="StartTime" Type="datetime" Nullable="false" />
           <Property Name="EndTime" Type="datetime" />
+          <Property Name="Player1Hand" Type="nvarchar" MaxLength="100" />
+          <Property Name="Player2Hand" Type="nvarchar" MaxLength="100" />
+          <Property Name="Player3Hand" Type="nvarchar" MaxLength="100" />
+          <Property Name="Player4Hand" Type="nvarchar" MaxLength="100" />
+          <Property Name="Player1Stash" Type="nvarchar" MaxLength="300" />
+          <Property Name="Player2Stash" Type="nvarchar" MaxLength="300" />
+          <Property Name="Player3Stash" Type="nvarchar" MaxLength="300" />
+          <Property Name="Player4Stash" Type="nvarchar" MaxLength="300" />
         </EntityType>
         <EntityType Name="Move">
           <Key>
@@ -163,8 +171,7 @@
             <End Role="User" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HeartsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -190,6 +197,14 @@
           <NavigationProperty Name="User3" Relationship="Self.FK_Game_Player4" FromRole="Game" ToRole="User" />
           <NavigationProperty Name="Moves" Relationship="Self.FK_Move_Game" FromRole="Game" ToRole="Move" />
           <NavigationProperty Name="Users" Relationship="Self.FK_User_ActiveGame" FromRole="Game" ToRole="User" />
+          <Property Name="Player1Hand" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Player2Hand" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Player3Hand" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Player4Hand" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Player1Stash" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Player2Stash" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Player3Stash" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Player4Stash" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Move">
           <Key>
@@ -349,6 +364,14 @@
           <EntitySetMapping Name="Games">
             <EntityTypeMapping TypeName="HeartsModel.Game">
               <MappingFragment StoreEntitySet="Game">
+                <ScalarProperty Name="Player4Stash" ColumnName="Player4Stash" />
+                <ScalarProperty Name="Player3Stash" ColumnName="Player3Stash" />
+                <ScalarProperty Name="Player2Stash" ColumnName="Player2Stash" />
+                <ScalarProperty Name="Player1Stash" ColumnName="Player1Stash" />
+                <ScalarProperty Name="Player4Hand" ColumnName="Player4Hand" />
+                <ScalarProperty Name="Player3Hand" ColumnName="Player3Hand" />
+                <ScalarProperty Name="Player2Hand" ColumnName="Player2Hand" />
+                <ScalarProperty Name="Player1Hand" ColumnName="Player1Hand" />
                 <ScalarProperty Name="GameId" ColumnName="GameId" />
                 <ScalarProperty Name="Status" ColumnName="Status" />
                 <ScalarProperty Name="Player1" ColumnName="Player1" />

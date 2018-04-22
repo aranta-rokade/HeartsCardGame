@@ -10,8 +10,32 @@ namespace Hearts.ViewModel
     {
         public Suit Suit { get; set; }
         public Value Value { get; set; }
-        public int playerId { get; set; }
+        public int PlayerId { get; set; }
+        public int Points { get; set; }
+        public string Name { get; private set; }
 
+        public Card(Suit suit, Value value)
+        {
+            Value = value;
+            Suit = suit;
+            Points = CalculatePoints(this);
+            Name = String.Format("{0} of {1}", value, suit);
+        }
+
+        public bool IsEqual(Card card)
+        {
+            return card.Value == Value && card.Suit == Suit;
+        }
+
+        public static int CalculatePoints(Card card)
+        {
+            if (card.Suit == Suit.Hearts)
+                return 1;
+            else if (card.Suit == Suit.Spades && card.Value == Value.Queen)
+                return 13;
+            else
+                return 0;
+        }
     }
 
     public enum Suit {
@@ -37,23 +61,6 @@ namespace Hearts.ViewModel
         Ace
     }
 
-    public class Move {
-        public Card card1 { get; set; }
-        public Card card2 { get; set; }
-        public Card card3 { get; set; }
-        public Card card4 { get; set; }
-
-        //public Card getHighest() {
-            //if(card1.Value > card2.Value)
-            //    winner1 = card1
-            //else 
-            //    winner1 = card2
-
-            //if(card3.Value > card4.Value)
-            //    winner2 = card3
-            //else
-            //    winner1 = card2
-        //}
-    }
+    
 
 }

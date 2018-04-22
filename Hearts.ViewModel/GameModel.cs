@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,24 +13,60 @@ namespace Hearts.ViewModel
 
         public int Status { get; set; }
 
-        public int Player1 { get; set; }
+        public Player Player1 { get; set; }
 
-        public Nullable<int> Player2 { get; set; }
+        public Player Player2 { get; set; }
 
-        public Nullable<int> Player3 { get; set; }
+        public Player Player3 { get; set; }
 
-        public Nullable<int> Player4 { get; set; }
-
-        public int Player1Score { get; set; }
-
-        public int Player2Score { get; set; }
-
-        public int Player3Score { get; set; }
-
-        public int Player4Score { get; set; }
+        public Player Player4 { get; set; }
 
         public System.DateTime StartTime { get; set; }
 
         public Nullable<System.DateTime> EndTime { get; set; }
+
+        List<Card> Deck;
+
+        public void InitializeDeck()
+        {
+            foreach (Suit suit in Enum.GetValues(typeof(Suit)))
+                foreach (Value value in Enum.GetValues(typeof(Value))) {
+                    Card cardToAdd = new Card(suit, value);
+                    Deck.Add(cardToAdd);
+                }
+        }
+
+        public void Shuffle()
+        {
+            List<Card> temporaryDeck = new List<Card>();
+            Random random = new Random();
+            while (Deck.Count > 0)
+            {
+                int index = random.Next(0, Deck.Count);
+                Deck.RemoveAt(index);
+                temporaryDeck.Add(Deck[index]);
+            }
+            Deck = temporaryDeck;
+        }
+
+        private Card Deal() 
+        {
+            Random random = new Random();
+            int index = random.Next(0, Deck.Count);
+            Card card = Deck[index];
+            Deck.RemoveAt(index);
+            return card;
+        }
+
+        public void DealCards()
+        {
+            for (int i = 0; i < 13; i++)
+            {
+                Player1.Hand.Add(Deal());
+                Player2.Hand.Add(Deal());
+                Player3.Hand.Add(Deal());
+                Player4.Hand.Add(Deal());
+            }
+        }
     }
 }

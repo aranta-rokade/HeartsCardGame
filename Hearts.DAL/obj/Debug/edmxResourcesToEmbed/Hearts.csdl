@@ -22,6 +22,14 @@
     <NavigationProperty Name="User3" Relationship="Self.FK_Game_Player4" FromRole="Game" ToRole="User" />
     <NavigationProperty Name="Moves" Relationship="Self.FK_Move_Game" FromRole="Game" ToRole="Move" />
     <NavigationProperty Name="Users" Relationship="Self.FK_User_ActiveGame" FromRole="Game" ToRole="User" />
+    <Property Name="Player1Hand" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Player2Hand" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Player3Hand" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Player4Hand" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Player1Stash" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="Player2Stash" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="Player3Stash" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+    <Property Name="Player4Stash" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Move">
     <Key>
