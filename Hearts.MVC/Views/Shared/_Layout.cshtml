@@ -24,7 +24,7 @@
                     <li>@Html.ActionLink("About", "About", "Home")</li> |
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                 </ul>
-                @if (Session["UserName"] != null)
+                @if (Session["UserId"] != null)
                 {
                     <ul class="nav navbar-nav" style="float:right">
                         <li>@Html.ActionLink("Welcome "+@Session["UserName"].ToString(), "Index", "Account")</li> |

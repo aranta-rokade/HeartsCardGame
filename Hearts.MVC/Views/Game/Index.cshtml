@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>All Games</h2>
+<h2>Waiting Games</h2>
 
 <p>
     @Html.ActionLink("Create New Game", "Create", null, new { @class = "btn btn-primary" })
@@ -51,26 +51,26 @@
         <td>
             @Html.DisplayFor(modelItem => item.Player1.UserName)
         </td>
+        @if (item.Player2 == null) {
+            <td> -Waiting-</td> 
+        }
+        else {
+            <td> @Html.DisplayFor(modelItem => item.Player2.UserName)</td> 
+        }
+        @if (item.Player3 == null) {
+            <td> -Waiting-</td> 
+        }
+        else {
+            <td> @Html.DisplayFor(modelItem => item.Player3.UserName)</td> 
+        }
+        @if (item.Player4 == null) {
+            <td> -Waiting-</td> 
+        }
+        else {
+            <td> @Html.DisplayFor(modelItem => item.Player4.UserName)</td> 
+        }
         <td>
-            @if (item.Player2 == null) {
-                Html.DisplayText("Waiting"); }
-            else {
-                Html.DisplayFor(modelItem => item.Player2.UserName); }
-        </td>
-        <td>
-            @if (item.Player3 == null) {
-                Html.DisplayText("Waiting"); }
-            else {
-                Html.DisplayFor(modelItem => item.Player3.UserName); }
-        </td>
-        <td>
-            @if (item.Player4 == null) {
-                Html.DisplayText("Waiting"); }
-            else {
-                Html.DisplayFor(modelItem => item.Player4.UserName); }
-        </td>
-        <td>
-            @Html.ActionLink("Join Game", "Join", new { gameId = item.GameId }, null)
+            @Html.ActionLink("Join Game", "Join", new { hashedGameId = item.GameId }, null)
         </td>
     </tr>
 }

@@ -52,12 +52,20 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ActiveGameId)
+            @Html.DisplayNameFor(model => model.ActiveGameURL)
         </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.ActiveGameId)
-        </dd>
+        @if (Model.ActiveGameURL.IsEmpty())
+        {
+            <dd>
+                @Html.ActionLink("Resume Game", "Resume", "Game", new { hashedGameId = Model.ActiveGameURL }, null)
+            </dd>
+        }
+        else {
+            <dd>
+                @Html.ActionLink("Create or join a game", "Index", "Game")
+            </dd>
+        }
 
         <dt>
             @Html.DisplayNameFor(model => model.Points)

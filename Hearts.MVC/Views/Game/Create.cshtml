@@ -5,7 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>New Game</h2>
+<h2>Game</h2>
 
 <p>Share the URL to your friends to join the Game:</p>
-<a href=@Model>@Model</a>
+<dd>
+    @Html.ActionLink("Resume Game", "Resume", "Game", new { hashedGameId = Model }, null)
+</dd>
