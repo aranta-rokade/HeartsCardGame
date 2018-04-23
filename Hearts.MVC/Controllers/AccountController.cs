@@ -34,8 +34,8 @@ namespace Hearts.MVC.Controllers
                 UserBAL u_bal = new UserBAL();
                 if (u_bal.ValidateUser(model.UserName, model.Password))
                 {
-                    UserModel user = u_bal.GetUser(model.UserName);
-                    Session["UserId"] = user.UserId.ToString();
+                    UserModel user = u_bal.GetUserByUserName(model.UserName);
+                    Session["UserId"] = user.UserId;
                     Session["UserName"] = user.UserName.ToString();
 
                     //var ident = new ClaimsIdentity(
@@ -94,10 +94,9 @@ namespace Hearts.MVC.Controllers
                 }
 
                 UserBAL u_bal = new UserBAL();
-                var new_user = u_bal.AddUser(model.UserName, model.EmailId, model.Password);
-                if (new_user != null)
+                var result = u_bal.AddUser(model.UserName, model.EmailId, model.Password);
+                if (result)
                 {
-                    UserModel user = u_bal.GetUser(model.UserName);
                     TempData["IsSuccess"] = "success"; 
                     TempData["Message"] = "Registeration successfull.";
                     return RedirectToAction("Login"); // auth succeed 
@@ -124,7 +123,7 @@ namespace Hearts.MVC.Controllers
             try
             {
                 UserBAL u_bal = new UserBAL();
-                UserModel user = u_bal.GetUser(Convert.ToInt16((Session["UserId"].ToString())));
+                UserModel user = u_bal.GetUserById(Session["UserId"].ToString());
                 return View(user);
             }
             catch (Exception e)
@@ -141,8 +140,8 @@ namespace Hearts.MVC.Controllers
         {
             try
             {
-                Session["UserId"] = "";
-                Session["UserName"] = "";
+                Session["UserId"] = null;
+                Session["UserName"] = null;
                 TempData["IsSuccess"] = "success";
                 TempData["Message"] = "You have successfully logged out of the system.";
                 return RedirectToAction("Index","Home");

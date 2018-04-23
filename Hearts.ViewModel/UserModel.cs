@@ -10,7 +10,8 @@ namespace Hearts.ViewModel
     public class UserModel
     {
         [Key]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
+
 
         [Required]
         [Display(Name = "User name")]
@@ -32,6 +33,9 @@ namespace Hearts.ViewModel
 
         [Display(Name = "Active Game")]
         public Nullable<int> ActiveGameId { get; set; }
+
+        [Display(Name = "Active Game")]
+        public string ActiveGameURL { get; set; }
 
         public DateTime LastModifiedTime { get; set; }
 

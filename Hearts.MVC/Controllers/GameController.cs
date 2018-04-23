@@ -15,7 +15,7 @@ namespace Hearts.MVC.Controllers
             try
             {
                 GameBAL gbal = new GameBAL();
-                var games = gbal.GetAllWaitingGames(Convert.ToInt16((Session["UserId"].ToString())));
+                var games = gbal.GetAllWaitingGames();
                 return View(games);
             }
             catch (Exception e)
@@ -33,10 +33,10 @@ namespace Hearts.MVC.Controllers
             try
             {
                 GameBAL gbal = new GameBAL();
-                var games = gbal.NewGame(Convert.ToInt16((Session["UserId"].ToString())));
+                var games = gbal.NewGame(Session["UserId"].ToString());
                 TempData["IsSuccess"] = "success";
                 TempData["Message"] = "New game created.";
-                return View(games);
+                return View("Create", null, games);
             }
             catch (Exception e)
             {
@@ -48,12 +48,12 @@ namespace Hearts.MVC.Controllers
         }
 
         // Get: Join/{id}
-        public ActionResult Join(int gameId)
+        public ActionResult Join(string hashedGameId)
         {
             try
             {
                 GameBAL gbal = new GameBAL();
-                var games = gbal.JoinGame(gameId, Convert.ToInt16((Session["UserId"].ToString())));
+                var games = gbal.JoinGame(hashedGameId, Session["UserId"].ToString());
                 TempData["IsSuccess"] = "success";
                 TempData["Message"] = "You have joined the game.";
                 return View("Create", null, games);
@@ -65,6 +65,12 @@ namespace Hearts.MVC.Controllers
                 ModelState.AddModelError("", e.Message);
                 return RedirectToAction("Index");
             }
+        }
+
+        // Get: Join/{hashedGameId}
+        public ActionResult Resume(string hashedGameId)
+        {
+            return View();
         }
     }
 }

@@ -13,6 +13,9 @@ namespace Hearts.ViewModel
         [Key]
         public int GameId { get; set; }
 
+        [Display(Name = "Game URL")]
+        public string GameURL { get; set; }
+
         [Display(Name = "Status")]
         public int Status { get; set; }
 

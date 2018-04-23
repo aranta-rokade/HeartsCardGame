@@ -11,7 +11,7 @@ namespace Hearts.BAL
 {
     public class UserBAL
     {
-        public RegisterModel AddUser(string username, string email, string password)
+        public bool AddUser(string username, string email, string password)
         {
             try
             {
@@ -24,12 +24,9 @@ namespace Hearts.BAL
                     Password = password,
                     LastModifiedTime = DateTime.Now
                 });
-                return new RegisterModel
-                {
-                    UserId = user.UserId,
-                    UserName = user.Username,
-                    EmailId = user.EmailId
-                };
+                if (user != null)
+                    return true;
+                return false;
             }
             catch (CustomException e)
             {
@@ -62,21 +59,22 @@ namespace Hearts.BAL
             }
         }
 
-        public UserModel GetUser(string username)
+        public UserModel GetUserByUserName(string username)
         {
             try
             {
+                Hashing hashing = new Hashing();
                 UserDAL udal = new UserDAL();
                 var user = udal.GetUserByUserName(username);
                 return new UserModel
                 {
-                    UserId = user.UserId,
+                    UserId = hashing.Encrypt(user.UserId.ToString()),
                     UserName = user.Username,
                     EmailId = user.EmailId,
                     Wins = user.Wins,
                     Draws = user.Draws,
                     Losses = user.Losses,
-                    ActiveGameId = user.ActiveGameId,
+                    ActiveGameURL = hashing.Encrypt(user.ActiveGameId.ToString()),
                     LastModifiedTime = user.LastModifiedTime,
                     Points = user.Points
                 };
@@ -91,22 +89,26 @@ namespace Hearts.BAL
                 throw new Exception("Oops! Some error occured.");
             }
         }
-        public UserModel GetUser(int userId)
+
+        public UserModel GetUserById(string hashedUserId)
         {
             try
             {
+                Hashing hashing = new Hashing();
                 UserDAL udal = new UserDAL();
+                var userId = Convert.ToInt32(hashing.Decrypt(hashedUserId));
                 var user = udal.GetUserById(userId);
                 return new UserModel
                 {
-                    UserId = user.UserId,
+                    UserId = hashing.Encrypt(user.UserId.ToString()),
                     UserName = user.Username,
                     EmailId = user.EmailId,
                     Wins = user.Wins,
                     Draws = user.Draws,
                     Losses = user.Losses,
-                    ActiveGameId = user.ActiveGameId,
-                    LastModifiedTime = user.LastModifiedTime
+                    ActiveGameURL = hashing.Encrypt(user.ActiveGameId.ToString()),
+                    LastModifiedTime = user.LastModifiedTime,
+                    Points = user.Points
                 };
             }
             catch (CustomException e)

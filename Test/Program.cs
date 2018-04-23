@@ -15,7 +15,7 @@ namespace Test
             GameBAL g_bal = new GameBAL();
             try
             {
-                var gameURL = g_bal.JoinGame(11, 4);
+                var gameURL = g_bal.JoinGame("11", "4");
                 Console.WriteLine("game url: {0}", gameURL);
             }
             catch (Exception e)

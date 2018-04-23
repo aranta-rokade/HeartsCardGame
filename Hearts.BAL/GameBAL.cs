@@ -8,13 +8,14 @@ namespace Hearts.BAL
 {
     public class GameBAL
     {
-        public string NewGame(int player1)
+        public string NewGame(string hashedPlayerId)
         {
             try
             {
+                Hashing hashing = new Hashing();
+                int playerId = Convert.ToInt32(hashing.Decrypt(hashedPlayerId));
                 GameDAL gdal = new GameDAL();
-                var gameId = gdal.AddGame(player1);
-                //TODO: hash the game id and return game url
+                var gameId = hashing.Encrypt(gdal.AddGame(playerId).ToString());
                 return gameId.ToString();
             }
             catch (CustomException e)
@@ -28,12 +29,16 @@ namespace Hearts.BAL
             }
         }
 
-        public string JoinGame(int gameId, int playerid)
+        public string JoinGame(string hashedGameId, string hashedPlayerid)
         {
             try
             {
                 GameDAL gdal = new GameDAL();
                 UserDAL udal = new UserDAL();
+                Hashing hashing = new Hashing();
+
+                int gameId = Convert.ToInt32(hashing.Decrypt(hashedGameId));
+                int playerid = Convert.ToInt32(hashing.Decrypt(hashedPlayerid));
 
                 Game game = gdal.GetGame(gameId);
                 User user = udal.GetUserById(playerid);
@@ -41,8 +46,7 @@ namespace Hearts.BAL
                 if (playerid == game.Player1 || playerid == game.Player2 || playerid == game.Player3 || playerid == game.Player4)
                 {
                     //user is already part of the game
-                    //TODO: hash the game id and return game url
-                    return game.GameId.ToString();
+                    return hashing.Encrypt(game.GameId.ToString());
                 }
 
                 //user is already part of ANOTHER the game
@@ -63,8 +67,7 @@ namespace Hearts.BAL
                 var new_game = gdal.AddPlayer(playerid, game.GameId);
                 udal.UpdateActiveGame(playerid, new_game.GameId);
 
-                //TODO: hash the game id and return game url
-                return new_game.GameId.ToString();
+                return hashing.Encrypt(new_game.GameId.ToString());
 
                 //return new GameModel
                 //{
@@ -88,12 +91,14 @@ namespace Hearts.BAL
             }
         }
 
-        public List<GameModel> GetAllWaitingGames(int playerId)
+        public List<GameModel> GetAllWaitingGames()
         {
             try
             {
                 GameDAL gdal = new GameDAL();
                 UserDAL udal = new UserDAL();
+                Hashing hashing = new Hashing();
+
                 var games = gdal.GetAllWaitingGames();
                 List<GameModel> waiting_game = new List<GameModel>();
 
@@ -101,8 +106,8 @@ namespace Hearts.BAL
                 {
                     var new_game = new GameModel
                     {
-                        //TODO: hash the game id and return game url
                         GameId = game.GameId,
+                        GameURL = hashing.Encrypt(game.GameId.ToString()),
                         Status = game.Status,
                         EndTime = game.EndTime,
                         StartTime = game.StartTime
@@ -139,5 +144,7 @@ namespace Hearts.BAL
             }
 
         }
+
+        //public GameModel GetGame(int)
     }
 }

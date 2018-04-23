@@ -31,7 +31,17 @@ namespace Hearts.DAL
                 var user = db.Users.FirstOrDefault(x => x.UserId == player1);
                 if (user == null)
                     throw new CustomException("Invalid user.");
-                if (db.Games.FirstOrDefault(x => x.Player1 == player1 && (x.Status == (int)GameStatus.Started || x.Status == (int)GameStatus.Waiting)) != null)
+                if (db.Games.FirstOrDefault(x => 
+                        (
+                           x.Player1 == player1 ||
+                           x.Player2 == player1 ||
+                           x.Player3 == player1 ||
+                           x.Player4 == player1
+                        )
+                        && 
+                        (
+                            x.Status == (int)GameStatus.Started || x.Status == (int)GameStatus.Waiting)
+                        ) != null)
                     throw new CustomException("User is already part of an another game. You can play only one game at a time.");
 
                 Game game = new Game { Player1 = player1, Status = (int)GameStatus.Waiting, StartTime=DateTime.Now };
