@@ -16,6 +16,16 @@ namespace Hearts.MVC
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            //Remove X-AspNetMvc-Version Response Header
+            MvcHandler.DisableMvcResponseHeader = true;
+        }
+
+        protected void Application_PreSendRequestHeaders()
+        {
+            //Remove Server Header   
+            Response.Headers.Remove("Server");
+            //Remove X-AspNet-Version Header
+            Response.Headers.Remove("X-AspNet-Version"); 
         }
     }
 }

@@ -10,70 +10,75 @@
 <div>
     <h4>Your profile description.</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.UserName)
-        </dt>
+    @if (Model != null)
+    {
+        <dl class="dl-horizontal">
 
-        <dd>
-            @Html.DisplayFor(model => model.UserName)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.UserName)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.EmailId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EmailId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Wins)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Wins)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Draws)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Draws)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Losses)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Losses)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ActiveGameURL)
-        </dt>
-
-        @if (Model.ActiveGameURL.IsEmpty())
-        {
             <dd>
-                @Html.ActionLink("Resume Game", "Resume", "Game", new { hashedGameId = Model.ActiveGameURL }, null)
+                @Html.DisplayFor(model => model.UserName)
             </dd>
-        }
-        else {
+
+            <dt>
+                @Html.DisplayNameFor(model => model.EmailId)
+            </dt>
+
             <dd>
-                @Html.ActionLink("Create or join a game", "Index", "Game")
+                @Html.DisplayFor(model => model.EmailId)
             </dd>
-        }
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Points)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Wins)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Points)
-        </dd>
+            <dd>
+                @Html.DisplayFor(model => model.Wins)
+            </dd>
 
-    </dl>
+            <dt>
+                @Html.DisplayNameFor(model => model.Draws)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Draws)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Losses)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Losses)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ActiveGameURL)
+            </dt>
+
+            @if (Model.ActiveGameURL.IsEmpty())
+            {
+                <dd>
+                    @Html.ActionLink("Resume Game", "Resume", "Game", new { hashedGameId = Model.ActiveGameURL }, null)
+                </dd>
+            }
+            else
+            {
+                <dd>
+                    @Html.ActionLink("Create or join a game", "Index", "Game")
+                </dd>
+            }
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Points)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Points)
+            </dd>
+
+        </dl>
+    }
 </div>

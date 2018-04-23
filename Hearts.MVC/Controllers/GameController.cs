@@ -1,4 +1,5 @@
 ﻿using Hearts.BAL;
+using Hearts.MVC.CustomAttributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,8 @@ using System.Web.Mvc;
 
 namespace Hearts.MVC.Controllers
 {
+    [RequireHttps]
+    [CustomAuthorize]
     public class GameController : Controller
     {
         // GET: Game

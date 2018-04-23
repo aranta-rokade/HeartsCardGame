@@ -10,11 +10,11 @@
 @using (Html.BeginForm("Login", "Account", FormMethod.Post, Model))
 {
     @Html.AntiForgeryToken()
-
+    @Html.HiddenFor(m => m.hashRandomSeed)
     <div class="form-horizontal">
         <h4>Enter your credentials</h4>
         <hr />
-        
+
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
