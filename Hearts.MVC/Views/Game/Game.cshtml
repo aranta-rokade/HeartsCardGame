@@ -1,0 +1,78 @@
+﻿@model Hearts.ViewModel.GameModel
+
+@{
+    ViewBag.Title = "Game";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Game</h2>
+
+<div>
+    <h4>GameModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.GameURL)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GameURL)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Player1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Player1.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Player2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Player2.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Player3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Player3.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Player4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Player4.UserName)
+        </dd>
+    </dl>
+</div>

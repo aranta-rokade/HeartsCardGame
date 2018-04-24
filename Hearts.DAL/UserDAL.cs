@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Utility;
 
@@ -94,6 +95,13 @@ namespace Hearts.DAL
                 user.ActiveGameId = gameId;
                 db.SaveChanges();
                 return true;
+            }
+        }
+
+        public List<User> GetAllUsers() {
+            using (var db = new HeartsEntities())
+            {
+                return db.Users.OrderByDescending(x=>x.Points).ToList();
             }
         }
     }

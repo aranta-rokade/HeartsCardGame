@@ -7,6 +7,7 @@ namespace Hearts.MVC.Controllers
 {
     [RequireHttps]
     [CustomAuthorize]
+    [NoCache]
     public class GameController : Controller
     {
         // GET: Game
@@ -55,7 +56,7 @@ namespace Hearts.MVC.Controllers
             }
         }
 
-        // Get: Join/{id}
+        // Get: Join/{hashedGameId}
         public ActionResult Join(string hashedGameId)
         {
             try
@@ -75,12 +76,22 @@ namespace Hearts.MVC.Controllers
             }
         }
 
-        // Get: Join/{hashedGameId}
+        // Get: Game/{hashedGameId}
         public ActionResult Game(string hashedGameId)
         {
-            GameBAL gbal = new GameBAL();
-            var game = gbal.GetGame(hashedGameId);
-            return View(game);
+            try
+            {
+                GameBAL gbal = new GameBAL();
+                var game = gbal.GetGame(hashedGameId, Session["UserId"].ToString());
+                return View(game);
+            }
+            catch (Exception e)
+            {
+                TempData["IsSuccess"] = "danger";
+                TempData["Message"] = e.Message;
+                ModelState.AddModelError("", e.Message);
+                return RedirectToAction("Index");
+            }
         }
     }
 }

@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
 
 namespace Hearts.MVC.CustomAttributes
 {
-    public class CustomAuthorizeAttribute: ActionFilterAttribute, IAuthorizationFilter
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public sealed class CustomAuthorizeAttribute: ActionFilterAttribute, IAuthorizationFilter
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {

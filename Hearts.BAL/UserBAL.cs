@@ -121,5 +121,38 @@ namespace Hearts.BAL
                 throw new Exception("Oops! Some error occured.");
             }
         }
+
+        public List<UserModel> GetAllUsers() {
+            try
+            {
+                Hashing hashing = new Hashing();
+                UserDAL u_dal = new UserDAL();
+                var users = u_dal.GetAllUsers();
+                List<UserModel> userModel = new List<UserModel>();
+                foreach (var u in users)
+                {
+                    userModel.Add(new UserModel
+                    {
+                        UserId = hashing.Encrypt(u.UserId.ToString()),
+                        UserName = u.Username,
+                        EmailId = u.EmailId,
+                        Wins = u.Wins,
+                        Draws = u.Draws,
+                        Losses = u.Losses,
+                        Points = u.Points
+                    });
+                }
+                return userModel;
+            }
+            catch (CustomException e)
+            {
+                throw new CustomException(e.Message);
+            }
+            catch (Exception e)
+            {
+                //TODO: logger.Error(e);
+                throw new Exception("Oops! Some error occured.");
+            }
+        }
     }
 }

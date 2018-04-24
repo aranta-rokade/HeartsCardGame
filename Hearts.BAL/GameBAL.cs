@@ -120,13 +120,27 @@ namespace Hearts.BAL
             }
         }
 
-        public GameModel GetGame(string hashedGameId)
+        public GameModel GetGame(string hashedGameId, string hashedUserId)
         {
             GameDAL gdal = new GameDAL();
             UserDAL udal = new UserDAL();
             Hashing unhash = new Hashing();
+
             int gameId = Convert.ToInt32(unhash.Decrypt(hashedGameId));
+            int userId = Convert.ToInt32(unhash.Decrypt(hashedUserId));
+
             var game = gdal.GetGame(gameId);
+            var user = udal.GetUserById(userId);
+
+            if (game.Player1.Value != user.UserId && 
+                game.Player2.Value != user.UserId && 
+                game.Player3.Value != user.UserId &&
+                game.Player4.Value != user.UserId)
+                throw new CustomException("You cannot access this game currently. Join or create another game.");
+
+            if(game.Status == (int)GameStatus.Aborted || game.Status == (int)GameStatus.Ended)
+                throw new CustomException("Game has either aborted or ended.");
+
             GameModel gameModel = new GameModel
             {
                 //GameId = game.GameId,

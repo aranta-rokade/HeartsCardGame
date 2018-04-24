@@ -8,6 +8,7 @@ using System.Web.Mvc;
 namespace Hearts.MVC.Controllers
 {
     [RequireHttps]
+    [NoCache]
     public class AccountController : Controller
     {
         // GET: /Account/Login
