@@ -44,8 +44,6 @@ namespace Hearts.ViewModel
         [Display(Name = "Confirm Password")]
         public string ConfirmPassword { get; set; }
 
-        public string hashRandomSeed { get; set; }
-
         public bool isSuccess { get; set; }
     }
 }

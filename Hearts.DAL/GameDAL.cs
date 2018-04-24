@@ -44,7 +44,7 @@ namespace Hearts.DAL
                         ) != null)
                     throw new CustomException("User is already part of an another game. You can play only one game at a time.");
 
-                Game game = new Game { Player1 = player1, Status = (int)GameStatus.Waiting, StartTime=DateTime.Now };
+                Game game = new Game { Player1 = player1, Status = (int)GameStatus.Waiting, StartTime = DateTime.Now, Player1StartTime = DateTime.Now };
                 
                 db.Games.Add(game);
                 db.SaveChanges();
@@ -61,14 +61,35 @@ namespace Hearts.DAL
             using (var db = new HeartsEntities())
             {
                 var g = db.Games.FirstOrDefault(x=>x.GameId == gameId);
-                if (g.Player2 == null) g.Player2 = playerid;
-                else if (g.Player3 == null) g.Player3 = playerid;
+                if (g.Status==(int)GameStatus.Aborted || g.Status == (int)GameStatus.Ended)
+                {
+                    throw new CustomException("Game doesn't exist anymore.");
+                }
+                if (g.Player1 == null)
+                {
+                    g.Player1 = playerid;
+                    g.Player1StartTime = DateTime.Now;
+                }
+                else if (g.Player2 == null)
+                {
+                    g.Player2 = playerid;
+                    g.Player2StartTime = DateTime.Now;
+                }
+                else if (g.Player3 == null)
+                {
+                    g.Player3 = playerid;
+                    g.Player3StartTime = DateTime.Now;
+                }
                 else if (g.Player4 == null)
                 {
                     g.Player4 = playerid;
-                    g.Status = (int)GameStatus.Started;
+                    g.Player4StartTime = DateTime.Now;
                     g.StartTime = DateTime.Now;
                 };
+
+                if(g.Player1!=null && g.Player2 != null && g.Player3 != null && g.Player4 != null)
+                    g.Status = (int)GameStatus.Started;
+
                 if (g == null)
                 {
                     logger.Warn("GameId: {0} - not found.", g.GameId);
@@ -100,6 +121,31 @@ namespace Hearts.DAL
                         x.Player2.GetValueOrDefault(0) == playerId ||
                         x.Player3.GetValueOrDefault(0) == playerId ||
                         x.Player4.GetValueOrDefault(0) == playerId);
+            }
+        }
+
+        public bool AbortGame(int gameId)
+        {
+            using (var db = new HeartsEntities())
+            {
+                var game = db.Games.FirstOrDefault(x=> x.GameId==gameId);
+                if(game.Status == (int)GameStatus.Ended)
+                    throw new CustomException("Game has ended.");
+
+                if (game == null)
+                {
+                    logger.Warn("GameId: {0} - not found.", game.GameId);
+                    throw new CustomException("Invalid game.");
+                }
+
+                var playerids = db.Users.Where(x => x.ActiveGameId == gameId);
+                foreach (var player in playerids)
+                    player.ActiveGameId = null;
+
+                game.Status = (int)GameStatus.Aborted;
+                db.SaveChanges();
+                return true;
+           
             }
         }
     }

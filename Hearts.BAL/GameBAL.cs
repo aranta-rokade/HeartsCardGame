@@ -15,8 +15,18 @@ namespace Hearts.BAL
                 Hashing hashing = new Hashing();
                 int playerId = Convert.ToInt32(hashing.Decrypt(hashedPlayerId));
                 GameDAL gdal = new GameDAL();
-                var gameId = hashing.Encrypt(gdal.AddGame(playerId).ToString());
-                return gameId.ToString();
+                int gameId = gdal.AddGame(playerId);
+                var hashed_gameId = hashing.Encrypt(gameId.ToString());
+                // Wait for other players to join
+                WaitForPlayers(90, gameId);
+                var game = gdal.GetGame(gameId);
+                // check if game room is full
+                if (game.Player1 != null && game.Player2 != null && game.Player3 != null && game.Player4 != null)
+                {
+                    return hashed_gameId.ToString();
+                }
+                AbortGame(hashed_gameId);
+                throw new CustomException("Timeout. Players insufficient.");
             }
             catch (CustomException e)
             {
@@ -56,29 +66,48 @@ namespace Hearts.BAL
                 if (game.Player2 != null && game.Player3 != null && game.Player4 != null)
                     throw new CustomException("Game room is full.");
 
-                else if (game.Player2 == null) game.Player2 = playerid;
-                else if (game.Player3 == null) game.Player3 = playerid;
-                else if (game.Player4 == null) {
+                int time = 0;
+                if (game.Player1 == null)
+                {
+                    game.Player1 = playerid;
+                    var secondsElapsed = (DateTime.Now).Subtract(game.StartTime).Seconds;
+                    time = 90 - secondsElapsed;
+                }
+                else if (game.Player2 == null)
+                {
+                    game.Player2 = playerid;
+                    var secondsElapsed = (DateTime.Now).Subtract(game.StartTime).Seconds;
+                    time = 90 - secondsElapsed;
+                }
+                else if (game.Player3 == null)
+                {
+                    game.Player3 = playerid;
+                    var secondsElapsed = (DateTime.Now).Subtract(game.StartTime).Seconds;
+                    time = 90 - secondsElapsed;
+                }
+                else if (game.Player4 == null)
+                {
                     game.Player4 = playerid;
-                    game.Status = (int)GameStatus.Started;
-                    game.StartTime = DateTime.Now;
+                    var secondsElapsed = (DateTime.Now).Subtract(game.StartTime).Seconds;
+                    time = 90 - secondsElapsed;
                 }
 
                 var new_game = gdal.AddPlayer(playerid, game.GameId);
                 udal.UpdateActiveGame(playerid, new_game.GameId);
 
-                return hashing.Encrypt(new_game.GameId.ToString());
+                WaitForPlayers(time, new_game.GameId);
 
-                //return new GameModel
-                //{
-                //    GameId = new_game.GameId,
-                //    Player1 = new_game.Player1,
-                //    Player2 = new_game.Player2,
-                //    Player3 = new_game.Player3,
-                //    Player4 = new_game.Player4,
-                //    Status = new_game.Status,
-                //    StartTime = new_game.StartTime
-                //};
+                game = gdal.GetGame(game.GameId);
+
+                // check if game room is full
+                if (game.Player1 != null && game.Player2 != null && game.Player3 != null && game.Player4 != null)
+                {
+                    return hashing.Encrypt(new_game.GameId.ToString());
+                }
+
+                AbortGame(hashedGameId);
+                throw new CustomException("Timeout. Players insufficient.");
+                
             }
             catch (CustomException e)
             {
@@ -89,6 +118,45 @@ namespace Hearts.BAL
                 //TODO: logger.Error(e);
                 throw new Exception("Oops! Some error occured.");
             }
+        }
+
+        public GameModel GetGame(string hashedGameId)
+        {
+            GameDAL gdal = new GameDAL();
+            UserDAL udal = new UserDAL();
+            Hashing unhash = new Hashing();
+            int gameId = Convert.ToInt32(unhash.Decrypt(hashedGameId));
+            var game = gdal.GetGame(gameId);
+            GameModel gameModel = new GameModel
+            {
+                //GameId = game.GameId,
+                GameURL = unhash.Encrypt(game.GameId.ToString()),
+                Status = game.Status,
+                EndTime = game.EndTime,
+                StartTime = game.StartTime
+            };
+            User player;
+            if (game.Player1 != null)
+            {
+                player = udal.GetUserById(game.Player1.Value);
+                gameModel.Player1 = new Player(player.UserId, player.Username);
+            }
+            if (game.Player2 != null)
+            {
+                player = udal.GetUserById(game.Player2.Value);
+                gameModel.Player2 = new Player(player.UserId, player.Username);
+            }
+            if (game.Player3 != null)
+            {
+                player = udal.GetUserById(game.Player3.Value);
+                gameModel.Player3 = new Player(player.UserId, player.Username);
+            }
+            if (game.Player4 != null)
+            {
+                player = udal.GetUserById(game.Player4.Value);
+                gameModel.Player4 = new Player(player.UserId, player.Username);
+            }
+            return gameModel;
         }
 
         public List<GameModel> GetAllWaitingGames()
@@ -106,14 +174,18 @@ namespace Hearts.BAL
                 {
                     var new_game = new GameModel
                     {
-                        GameId = game.GameId,
+                        //GameId = game.GameId,
                         GameURL = hashing.Encrypt(game.GameId.ToString()),
                         Status = game.Status,
                         EndTime = game.EndTime,
                         StartTime = game.StartTime
                     };
-                    var player = udal.GetUserById(game.Player1);
-                    new_game.Player1 = new Player(player.UserId, player.Username);
+                    User player;
+                    if (game.Player1 != null)
+                    {
+                        player = udal.GetUserById(game.Player1.Value);
+                        new_game.Player1 = new Player(player.UserId, player.Username);
+                    }
                     if (game.Player2 != null) {
                         player = udal.GetUserById(game.Player2.Value);
                         new_game.Player2 = new Player(player.UserId, player.Username);
@@ -145,6 +217,19 @@ namespace Hearts.BAL
 
         }
 
+        public void WaitForPlayers(int seconds, int gameId)
+        {
+            System.Threading.Thread.Sleep(seconds * 1000);
+        }
+
         //public GameModel GetGame(int)
+        public bool AbortGame(string hashedgameId)
+        {
+            GameDAL gdal = new GameDAL();
+            Hashing unhash = new Hashing();
+            int gameId =Convert.ToInt32( unhash.Decrypt(hashedgameId));
+            return gdal.AbortGame(gameId);
+            
+        }
     }
 }

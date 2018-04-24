@@ -7,10 +7,9 @@
 
 <h2>Login</h2>
 
-@using (Html.BeginForm("Login", "Account", FormMethod.Post, Model))
+@using (Html.BeginForm("Login", "Account", new { returnUrl = ViewBag.returnUrl}, FormMethod.Post, null))
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(m => m.hashRandomSeed)
     <div class="form-horizontal">
         <h4>Enter your credentials</h4>
         <hr />

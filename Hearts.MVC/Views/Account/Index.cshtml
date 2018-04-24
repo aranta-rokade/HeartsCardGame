@@ -58,10 +58,10 @@
                 @Html.DisplayNameFor(model => model.ActiveGameURL)
             </dt>
 
-            @if (Model.ActiveGameURL.IsEmpty())
+            @if (!Model.ActiveGameURL.IsEmpty())
             {
                 <dd>
-                    @Html.ActionLink("Resume Game", "Resume", "Game", new { hashedGameId = Model.ActiveGameURL }, null)
+                    @Html.ActionLink("Resume Game", "Game", "Game", new { hashedGameId = Model.ActiveGameURL }, null)
                 </dd>
             }
             else

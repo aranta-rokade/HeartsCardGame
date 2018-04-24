@@ -70,7 +70,7 @@
             <td> @Html.DisplayFor(modelItem => item.Player4.UserName)</td> 
         }
         <td>
-            @Html.ActionLink("Join Game", "Join", new { hashedGameId = item.GameId }, null)
+            @Html.ActionLink("Join Game", "Join", new { hashedGameId = item.GameURL }, null)
         </td>
     </tr>
 }

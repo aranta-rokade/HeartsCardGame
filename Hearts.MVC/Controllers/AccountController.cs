@@ -2,13 +2,8 @@
 using Hearts.MVC.CustomAttributes;
 using Hearts.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 
 namespace Hearts.MVC.Controllers
 {
@@ -16,18 +11,10 @@ namespace Hearts.MVC.Controllers
     public class AccountController : Controller
     {
         // GET: /Account/Login
-        public ActionResult Login()
+        public ActionResult Login(string returnUrl)
         {
-            Random random = new Random();
-            #pragma warning disable 618
-            var seed = FormsAuthentication.HashPasswordForStoringInConfigFile(
-                    random.Next().ToString(), "MD5");
-            #pragma warning restore 618
-            LoginModel model = new LoginModel
-            {
-                hashRandomSeed = seed
-            };
-            return View(model);
+            ViewBag.returnUrl = returnUrl;
+            return View();
         }
 
         // POST: /Account/Login
@@ -58,7 +45,11 @@ namespace Hearts.MVC.Controllers
                     //Adding Cookie in Browser
                     Response.Cookies.Add(new HttpCookie("AuthenticationToken", guid));
 
-                    return RedirectToAction("Index", "Home"); // auth succeed 
+                    if (Url.IsLocalUrl(returnUrl))
+                    {
+                        return Redirect(returnUrl);
+                    }
+                    return RedirectToAction("Index", "Home"); 
 
                 }
                 TempData["IsSuccess"] = "danger";
@@ -81,16 +72,7 @@ namespace Hearts.MVC.Controllers
         // GET: /Account/Register
         public ActionResult Register()
         {
-            Random random = new Random();
-            #pragma warning disable 618
-            var seed = FormsAuthentication.HashPasswordForStoringInConfigFile(
-                    random.Next().ToString(), "MD5");
-            #pragma warning restore 618
-            RegisterModel model = new RegisterModel
-            {
-                hashRandomSeed = seed
-            };
-            return View(model);
+            return View();
         }
 
         // POST: /Account/Register

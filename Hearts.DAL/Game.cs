@@ -23,7 +23,7 @@ namespace Hearts.DAL
     
         public int GameId { get; set; }
         public int Status { get; set; }
-        public int Player1 { get; set; }
+        public Nullable<int> Player1 { get; set; }
         public Nullable<int> Player2 { get; set; }
         public Nullable<int> Player3 { get; set; }
         public Nullable<int> Player4 { get; set; }
@@ -41,9 +41,13 @@ namespace Hearts.DAL
         public string Player2Stash { get; set; }
         public string Player3Stash { get; set; }
         public string Player4Stash { get; set; }
-    
+        public Nullable<System.DateTime> Player1StartTime { get; set; }
+        public Nullable<System.DateTime> Player2StartTime { get; set; }
+        public Nullable<System.DateTime> Player3StartTime { get; set; }
+        public Nullable<System.DateTime> Player4StartTime { get; set; }
+
         public virtual User User { get; set; }
-        public virtual User User1 { get; set; }
+        public virtual User User1 { get; set; } 
         public virtual User User2 { get; set; }
         public virtual User User3 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -51,11 +55,12 @@ namespace Hearts.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> Users { get; set; }
     }
-}
-public enum GameStatus
-{
-    Waiting,
-    Started,
-    Aborted,
-    Ended
+    public enum GameStatus
+    {
+        Waiting,
+        Started,
+        Aborted,
+        Ended
+    }
+
 }

@@ -11,7 +11,6 @@
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, Model))
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(m => m.hashRandomSeed)
     <div class="form-horizontal">
         <h4>Create your profile and start playing.</h4>
         <hr />

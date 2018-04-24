@@ -11,7 +11,8 @@ namespace Hearts.MVC.CustomAttributes
     {
         public void OnAuthorization(AuthorizationContext filterContext)
         {
-            string TempSession = Convert.ToString(filterContext.HttpContext.Session["AuthenticationToken"]);
+            string TempSession =
+                    Convert.ToString(filterContext.HttpContext.Session["AuthenticationToken"]);
             string TempAuthCookie =
             Convert.ToString(filterContext.HttpContext.Request.Cookies["AuthenticationToken"].Value);
 

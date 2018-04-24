@@ -1,9 +1,6 @@
 ﻿using Hearts.BAL;
 using Hearts.MVC.CustomAttributes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Hearts.MVC.Controllers
@@ -36,10 +33,18 @@ namespace Hearts.MVC.Controllers
             try
             {
                 GameBAL gbal = new GameBAL();
-                var games = gbal.NewGame(Session["UserId"].ToString());
+                var gameId = gbal.NewGame(Session["UserId"].ToString());
                 TempData["IsSuccess"] = "success";
                 TempData["Message"] = "New game created.";
-                return View("Create", null, games);
+                if (gameId != null)
+                    return RedirectToAction("Game", "Game", new { hashedGameId = gameId });
+                else
+                {
+                    TempData["IsSuccess"] = "danger";
+                    TempData["Message"] = "Game Not Created";
+                    return RedirectToAction("Index");
+
+                }
             }
             catch (Exception e)
             {
@@ -56,10 +61,10 @@ namespace Hearts.MVC.Controllers
             try
             {
                 GameBAL gbal = new GameBAL();
-                var games = gbal.JoinGame(hashedGameId, Session["UserId"].ToString());
+                var gameId = gbal.JoinGame(hashedGameId, Session["UserId"].ToString());
                 TempData["IsSuccess"] = "success";
                 TempData["Message"] = "You have joined the game.";
-                return View("Create", null, games);
+                return RedirectToAction("Game", "Game", new { hashedGameId=gameId });
             }
             catch (Exception e)
             {
@@ -71,9 +76,11 @@ namespace Hearts.MVC.Controllers
         }
 
         // Get: Join/{hashedGameId}
-        public ActionResult Resume(string hashedGameId)
+        public ActionResult Game(string hashedGameId)
         {
-            return View();
+            GameBAL gbal = new GameBAL();
+            var game = gbal.GetGame(hashedGameId);
+            return View(game);
         }
     }
 }
