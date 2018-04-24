@@ -7,7 +7,7 @@
 
 <h2>Login</h2>
 
-@using (Html.BeginForm("Login", "Account", new { returnUrl = ViewBag.returnUrl}, FormMethod.Post, null))
+@using (Html.BeginForm("Login", "Account", new { returnUrl = ViewBag.returnUrl}, FormMethod.Post, new { autocomplete="off"}))
 {
     @Html.AntiForgeryToken()
     <div class="form-horizontal">

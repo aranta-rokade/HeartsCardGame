@@ -25,7 +25,11 @@ namespace Hearts.MVC
             //Remove Server Header   
             Response.Headers.Remove("Server");
             //Remove X-AspNet-Version Header
-            Response.Headers.Remove("X-AspNet-Version"); 
+            Response.Headers.Remove("X-AspNet-Version");
+            //Force No Cache
+            Response.AddHeader("Cache-Control", "max-age=0,no-cache,no-store,must-revalidate");
+            Response.AddHeader("Pragma", "no-cache");
+            Response.AddHeader("Expires", "Tue, 01 Jan 1970 00:00:00 GMT");
         }
     }
 }

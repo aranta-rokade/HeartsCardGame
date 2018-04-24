@@ -8,7 +8,7 @@
 <h2>Register</h2>
 
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, Model))
+@using (Html.BeginForm("Register", "Account",null, FormMethod.Post, new { autocomplete = "off" }))
 {
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
