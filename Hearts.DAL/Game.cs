@@ -45,9 +45,17 @@ namespace Hearts.DAL
         public Nullable<System.DateTime> Player2StartTime { get; set; }
         public Nullable<System.DateTime> Player3StartTime { get; set; }
         public Nullable<System.DateTime> Player4StartTime { get; set; }
-
+        public Nullable<int> LeadingSuit { get; set; }
+        public Nullable<int> Turn { get; set; }
+        public Nullable<int> GameRound { get; set; }
+        public Nullable<int> PassOrPlay { get; set; }
+        public string Player1Card { get; set; }
+        public string Player2Card { get; set; }
+        public string Player3Card { get; set; }
+        public string Player4Card { get; set; }
+    
         public virtual User User { get; set; }
-        public virtual User User1 { get; set; } 
+        public virtual User User1 { get; set; }
         public virtual User User2 { get; set; }
         public virtual User User3 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -62,5 +70,4 @@ namespace Hearts.DAL
         Aborted,
         Ended
     }
-
 }

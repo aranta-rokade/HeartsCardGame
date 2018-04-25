@@ -12,14 +12,22 @@ namespace Hearts.ViewModel
         public Value Value { get; set; }
         public int PlayerId { get; set; }
         public int Points { get; set; }
-        public string Name { get; private set; }
+        public string Name {
+            get
+            {
+                return String.Format("{0} of {1}", Value, Suit);
+            }
+        }
 
         public Card(Suit suit, Value value)
         {
             Value = value;
             Suit = suit;
             Points = CalculatePoints(this);
-            Name = String.Format("{0} of {1}", value, suit);
+        }
+
+        public Card()
+        {
         }
 
         public bool IsEqual(Card card)
@@ -35,6 +43,13 @@ namespace Hearts.ViewModel
                 return 13;
             else
                 return 0;
+        }
+
+        public void ConvertStringToCard(string card)
+        {
+            string[] x = card.Split('-');
+            this.Value = (Value)Enum.Parse(typeof(Value), x[0]);
+            this.Suit = (Suit)Enum.Parse(typeof(Suit), x[1]);
         }
     }
 
@@ -60,7 +75,5 @@ namespace Hearts.ViewModel
         King,
         Ace
     }
-
-    
 
 }

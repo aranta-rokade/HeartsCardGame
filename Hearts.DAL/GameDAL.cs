@@ -148,5 +148,30 @@ namespace Hearts.DAL
            
             }
         }
+
+        public void UpdateGameAfterMove(Game update_game)
+        {
+            using (var db = new HeartsEntities())
+            {
+                var game = db.Games.FirstOrDefault(x=>x.GameId == update_game.GameId);
+
+                game.Player1Hand = update_game.Player1Hand;
+                game.Player2Hand = update_game.Player2Hand;
+                game.Player3Hand = update_game.Player3Hand;
+                game.Player4Hand = update_game.Player4Hand;
+
+                game.Player1Stash = update_game.Player1Stash;
+                game.Player2Stash = update_game.Player2Stash;
+                game.Player3Stash = update_game.Player3Stash;
+                game.Player4Stash = update_game.Player4Stash;
+
+                game.Player1Score = update_game.Player1Score;
+                game.Player2Score = update_game.Player2Score;
+                game.Player3Score = update_game.Player3Score;
+                game.Player4Score = update_game.Player4Score;
+
+                db.SaveChanges();
+            }
+        }
     }
 }

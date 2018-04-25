@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hearts.ViewModel
 {
-    public class Move
+    public class MoveModel
     {
         public Card Card1 { get; set; }
         public Card Card2 { get; set; }

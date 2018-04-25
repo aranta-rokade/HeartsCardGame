@@ -8,17 +8,9 @@
 <h2>Game</h2>
 
 <div>
-    <h4>GameModel</h4>
+    <h4>Have fun!</h4>
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.GameURL)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.GameURL)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Status)
         </dt>
@@ -75,4 +67,112 @@
             @Html.DisplayFor(model => model.Player4.UserName)
         </dd>
     </dl>
+</div>
+<div>
+    @using (Html.BeginForm("Login", "Account", new { returnUrl = ViewBag.returnUrl }, FormMethod.Post, new { autocomplete = "off" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-horizontal">
+            <h4>Cards in your hand</h4>
+            <hr />
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="radio">
+                    @if (Model.PassOrPlay == 1) {
+                        <div>
+                            Pass 3 cards
+                        </div>
+                        @if (Model.Player1 != null) {
+                            foreach (var a in Model.Player1.Hand)
+                            {
+                                <p>
+                                    @Html.RadioButtonFor(m => m.CardSelected, a) @a.Name
+                        
+                                </p>
+                            }
+                        }
+                        if (Model.Player2 != null) {
+                            foreach (var a in Model.Player2.Hand)
+                            {
+                                <p>
+                                    @Html.RadioButtonFor(m => m.CardSelected, a) @a.Name
+                        
+                                </p>
+                            }
+                        }
+                        if (Model.Player3 != null) {
+                            foreach (var a in Model.Player3.Hand)
+                            {
+                                <p>
+                                    @Html.RadioButtonFor(m => m.CardSelected, a) @a.Name
+                        
+                                </p>
+                            }
+                        }
+                        if (Model.Player4 != null) {
+                            foreach (var a in Model.Player4.Hand)
+                            {
+                                <p>
+                                    @Html.RadioButtonFor(m => m.CardSelected, a) @a.Name
+                                </p>
+                            }
+                        }
+                    }
+                    else if(Model.PassOrPlay == 2)
+                    {
+                        <div>
+                            Play your card
+                        </div>
+                        @if (Model.Player1 != null) {
+                            foreach (var a in Model.Player1.Hand)
+                            {
+                                <p>
+                                    @Html.RadioButtonFor(m => m.CardSelected, a) @a.Name
+                        
+                                </p>
+                            }
+                        }
+                        if (Model.Player2 != null) {
+                            foreach (var a in Model.Player2.Hand)
+                            {
+                                <p>
+                                    @Html.RadioButtonFor(m => m.CardSelected, a) @a.Name
+                        
+                                </p>
+                            }
+                        }
+                        if (Model.Player3 != null) {
+                            foreach (var a in Model.Player3.Hand)
+                            {
+                                <p>
+                                    @Html.RadioButtonFor(m => m.CardSelected, a) @a.Name
+                        
+                                </p>
+                            }
+                        }
+                        if (Model.Player4 != null) {
+                            foreach (var a in Model.Player4.Hand)
+                            {
+                                <p>
+                                    @Html.RadioButtonFor(m => m.CardSelected, a) @a.Name
+                                </p>
+                            }
+                        }
+
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Login" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+    }
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
 </div>

@@ -32,10 +32,7 @@ namespace Hearts.ViewModel
         public int Losses { get; set; }
 
         [Display(Name = "Active Game")]
-        public Nullable<int> ActiveGameId { get; set; }
-
-        [Display(Name = "Active Game")]
-        public string ActiveGameURL { get; set; }
+        public string ActiveGameId { get; set; }
 
         public DateTime LastModifiedTime { get; set; }
 

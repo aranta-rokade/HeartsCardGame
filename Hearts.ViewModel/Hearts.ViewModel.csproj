@@ -50,5 +50,11 @@
     <Compile Include="RegisterModel.cs" />
     <Compile Include="UserModel.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{179F1F44-A6FF-4425-A3F3-7801219605AA}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

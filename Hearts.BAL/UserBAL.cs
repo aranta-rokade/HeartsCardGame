@@ -66,6 +66,10 @@ namespace Hearts.BAL
                 Hashing hashing = new Hashing();
                 UserDAL udal = new UserDAL();
                 var user = udal.GetUserByUserName(username);
+
+                string activeGameId = null;
+                if(user.ActiveGameId!=null)
+                    activeGameId = hashing.Encrypt(user.ActiveGameId.ToString());
                 return new UserModel
                 {
                     UserId = hashing.Encrypt(user.UserId.ToString()),
@@ -74,10 +78,11 @@ namespace Hearts.BAL
                     Wins = user.Wins,
                     Draws = user.Draws,
                     Losses = user.Losses,
-                    ActiveGameURL = hashing.Encrypt(user.ActiveGameId.ToString()),
+                    ActiveGameId = activeGameId,
                     LastModifiedTime = user.LastModifiedTime,
                     Points = user.Points
                 };
+                
             }
             catch (CustomException e)
             {
@@ -98,6 +103,11 @@ namespace Hearts.BAL
                 UserDAL udal = new UserDAL();
                 var userId = Convert.ToInt32(hashing.Decrypt(hashedUserId));
                 var user = udal.GetUserById(userId);
+
+                string activeGameId = null;
+                if (user.ActiveGameId != null)
+                    activeGameId = hashing.Encrypt(user.ActiveGameId.ToString());
+
                 return new UserModel
                 {
                     UserId = hashing.Encrypt(user.UserId.ToString()),
@@ -106,7 +116,7 @@ namespace Hearts.BAL
                     Wins = user.Wins,
                     Draws = user.Draws,
                     Losses = user.Losses,
-                    ActiveGameURL = hashing.Encrypt(user.ActiveGameId.ToString()),
+                    ActiveGameId = activeGameId,
                     LastModifiedTime = user.LastModifiedTime,
                     Points = user.Points
                 };
@@ -133,7 +143,6 @@ namespace Hearts.BAL
                 {
                     userModel.Add(new UserModel
                     {
-                        UserId = hashing.Encrypt(u.UserId.ToString()),
                         UserName = u.Username,
                         EmailId = u.EmailId,
                         Wins = u.Wins,

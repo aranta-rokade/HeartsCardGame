@@ -36,11 +36,26 @@ namespace Hearts.ViewModel
 
         [Display(Name = "End Time")]
         public DateTime? EndTime { get; set; }
+        
+        List<Card> Deck { get; set; }
 
-        List<Card> Deck;
+        [Display(Name = "Player")]
+        public int PlayerTurn { get; set; }
+
+        [Display(Name = "Pass or Play")]
+        public int PassOrPlay { get; set; }
+
+        [Display(Name = "Selected Card")]
+        public Card CardSelected { get; set; }
+
+        [Display(Name = "Round")]
+        public int GameRound { get; set; }
+
+        public MoveModel Trick { get; set; } 
 
         public void InitializeDeck()
         {
+            Deck = new List<Card>();
             foreach (Suit suit in Enum.GetValues(typeof(Suit)))
                 foreach (Value value in Enum.GetValues(typeof(Value))) {
                     Card cardToAdd = new Card(suit, value);

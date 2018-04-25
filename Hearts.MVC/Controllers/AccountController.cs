@@ -37,7 +37,8 @@ namespace Hearts.MVC.Controllers
                 {
                     UserModel user = u_bal.GetUserByUserName(model.UserName);
                     Session["UserId"] = user.UserId;
-                    Session["UserName"] = user.UserName.ToString();
+                    Session["UserName"] = user.UserName;
+                    Session["ActiveGameId"] = user.ActiveGameId;
 
                     // Getting New Guid
                     string guid = Convert.ToString(Guid.NewGuid());

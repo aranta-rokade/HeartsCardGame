@@ -11,7 +11,7 @@
           </Key>
           <Property Name="GameId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Status" Type="int" Nullable="false" />
-          <Property Name="Player1" Type="int" Nullable="false" />
+          <Property Name="Player1" Type="int" />
           <Property Name="Player2" Type="int" />
           <Property Name="Player3" Type="int" />
           <Property Name="Player4" Type="int" />
@@ -21,14 +21,26 @@
           <Property Name="Player4Score" Type="int" Nullable="false" />
           <Property Name="StartTime" Type="datetime" Nullable="false" />
           <Property Name="EndTime" Type="datetime" />
-          <Property Name="Player1Hand" Type="nvarchar" MaxLength="100" />
-          <Property Name="Player2Hand" Type="nvarchar" MaxLength="100" />
-          <Property Name="Player3Hand" Type="nvarchar" MaxLength="100" />
-          <Property Name="Player4Hand" Type="nvarchar" MaxLength="100" />
-          <Property Name="Player1Stash" Type="nvarchar" MaxLength="300" />
-          <Property Name="Player2Stash" Type="nvarchar" MaxLength="300" />
-          <Property Name="Player3Stash" Type="nvarchar" MaxLength="300" />
-          <Property Name="Player4Stash" Type="nvarchar" MaxLength="300" />
+          <Property Name="Player1Hand" Type="nvarchar(max)" />
+          <Property Name="Player2Hand" Type="nvarchar(max)" />
+          <Property Name="Player3Hand" Type="nvarchar(max)" />
+          <Property Name="Player4Hand" Type="nvarchar(max)" />
+          <Property Name="Player1Stash" Type="nvarchar(max)" />
+          <Property Name="Player2Stash" Type="nvarchar(max)" />
+          <Property Name="Player3Stash" Type="nvarchar(max)" />
+          <Property Name="Player4Stash" Type="nvarchar(max)" />
+          <Property Name="Player1StartTime" Type="datetime" />
+          <Property Name="Player2StartTime" Type="datetime" />
+          <Property Name="Player3StartTime" Type="datetime" />
+          <Property Name="Player4StartTime" Type="datetime" />
+          <Property Name="LeadingSuit" Type="int" />
+          <Property Name="Turn" Type="int" />
+          <Property Name="GameRound" Type="int" />
+          <Property Name="PassOrPlay" Type="int" />
+          <Property Name="Player1Card" Type="nvarchar" MaxLength="4" />
+          <Property Name="Player2Card" Type="nvarchar" MaxLength="4" />
+          <Property Name="Player3Card" Type="nvarchar" MaxLength="4" />
+          <Property Name="Player4Card" Type="nvarchar" MaxLength="4" />
         </EntityType>
         <EntityType Name="Move">
           <Key>
@@ -56,7 +68,7 @@
           <Property Name="Points" Type="int" Nullable="false" />
         </EntityType>
         <Association Name="FK_Game_Player1">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
           <End Role="Game" Type="Self.Game" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
@@ -182,7 +194,7 @@
           </Key>
           <Property Name="GameId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Status" Type="Int32" Nullable="false" />
-          <Property Name="Player1" Type="Int32" Nullable="false" />
+          <Property Name="Player1" Type="Int32" />
           <Property Name="Player2" Type="Int32" />
           <Property Name="Player3" Type="Int32" />
           <Property Name="Player4" Type="Int32" />
@@ -198,14 +210,26 @@
           <NavigationProperty Name="User3" Relationship="Self.FK_Game_Player4" FromRole="Game" ToRole="User" />
           <NavigationProperty Name="Moves" Relationship="Self.FK_Move_Game" FromRole="Game" ToRole="Move" />
           <NavigationProperty Name="Users" Relationship="Self.FK_User_ActiveGame" FromRole="Game" ToRole="User" />
-          <Property Name="Player1Hand" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Player2Hand" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Player3Hand" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Player4Hand" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Player1Stash" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="Player2Stash" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="Player3Stash" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="Player4Stash" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Player1Hand" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Player2Hand" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Player3Hand" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Player4Hand" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Player1Stash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Player2Stash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Player3Stash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Player4Stash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Player1StartTime" Type="DateTime" Precision="3" />
+          <Property Name="Player2StartTime" Type="DateTime" Precision="3" />
+          <Property Name="Player3StartTime" Type="DateTime" Precision="3" />
+          <Property Name="Player4StartTime" Type="DateTime" Precision="3" />
+          <Property Name="LeadingSuit" Type="Int32" />
+          <Property Name="Turn" Type="Int32" />
+          <Property Name="GameRound" Type="Int32" />
+          <Property Name="PassOrPlay" Type="Int32" />
+          <Property Name="Player1Card" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="Player2Card" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="Player3Card" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="Player4Card" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Move">
           <Key>
@@ -241,7 +265,7 @@
           <Property Name="Points" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_Game_Player1">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
           <End Role="Game" Type="Self.Game" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
@@ -366,6 +390,18 @@
           <EntitySetMapping Name="Games">
             <EntityTypeMapping TypeName="HeartsModel.Game">
               <MappingFragment StoreEntitySet="Game">
+                <ScalarProperty Name="Player4Card" ColumnName="Player4Card" />
+                <ScalarProperty Name="Player3Card" ColumnName="Player3Card" />
+                <ScalarProperty Name="Player2Card" ColumnName="Player2Card" />
+                <ScalarProperty Name="Player1Card" ColumnName="Player1Card" />
+                <ScalarProperty Name="PassOrPlay" ColumnName="PassOrPlay" />
+                <ScalarProperty Name="GameRound" ColumnName="GameRound" />
+                <ScalarProperty Name="Turn" ColumnName="Turn" />
+                <ScalarProperty Name="LeadingSuit" ColumnName="LeadingSuit" />
+                <ScalarProperty Name="Player4StartTime" ColumnName="Player4StartTime" />
+                <ScalarProperty Name="Player3StartTime" ColumnName="Player3StartTime" />
+                <ScalarProperty Name="Player2StartTime" ColumnName="Player2StartTime" />
+                <ScalarProperty Name="Player1StartTime" ColumnName="Player1StartTime" />
                 <ScalarProperty Name="Player4Stash" ColumnName="Player4Stash" />
                 <ScalarProperty Name="Player3Stash" ColumnName="Player3Stash" />
                 <ScalarProperty Name="Player2Stash" ColumnName="Player2Stash" />

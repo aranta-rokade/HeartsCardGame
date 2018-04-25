@@ -31,37 +31,13 @@
             </dd>
 
             <dt>
-                @Html.DisplayNameFor(model => model.Wins)
+                @Html.DisplayNameFor(model => model.ActiveGameId)
             </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.Wins)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Draws)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Draws)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Losses)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Losses)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.ActiveGameURL)
-            </dt>
-
-            @if (!Model.ActiveGameURL.IsEmpty())
+            @if (!Model.ActiveGameId.IsEmpty())
             {
                 <dd>
-                    @Html.ActionLink("Resume Game", "Game", "Game", new { hashedGameId = Model.ActiveGameURL }, null)
+                    @Html.ActionLink("Resume Game", "Game", "Game", new { hashedGameId = Model.ActiveGameId }, null)
                 </dd>
             }
             else
@@ -71,14 +47,25 @@
                 </dd>
             }
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Points)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Points)
-            </dd>
-
         </dl>
+
+        <ul class="list-group">
+            <li class="list-group-item">
+                <span class="badge">@Html.DisplayFor(model => model.Wins)</span>
+                @Html.DisplayNameFor(model => model.Wins)
+            </li>
+            <li class="list-group-item">
+                <span class="badge">@Html.DisplayFor(model => model.Wins)</span>
+                @Html.DisplayNameFor(model => model.Draws)
+            </li>
+            <li class="list-group-item">
+                <span class="badge">@Html.DisplayFor(model => model.Wins)</span>
+                @Html.DisplayNameFor(model => model.Wins)
+            </li>
+            <li class="list-group-item">
+                <span class="badge">@Html.DisplayFor(model => model.Points)</span>
+                @Html.DisplayNameFor(model => model.Points)
+            </li>
+        </ul>
     }
 </div>

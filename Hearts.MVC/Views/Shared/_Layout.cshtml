@@ -18,7 +18,6 @@
                 </button>
                 <span>
                     @Html.ActionLink("Hearts Card Game", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                    <img style="width: 25px;display: inline;position: relative;top: 17px;left: -13px;" src="~/Images/HeartsIcon.svg" />
                 </span>
             </div>
             <div class="navbar-collapse collapse">
@@ -34,7 +33,10 @@
                         <ul class="dropdown-menu" role="menu">
                             <li>@Html.ActionLink("Join Game", "Index", "Game")</li>
                             <li>@Html.ActionLink("Start New Game", "Index", "Game")</li>
-                            <li>@Html.ActionLink("Resume Game", "Resume", "Game")</li>
+                            @if(Session["ActiveGameId"] != null)
+                            {
+                                <li>@Html.ActionLink("Resume Game", "Game", "Game", new { hashedGameId = Session["ActiveGameId"].ToString() }, null)</li>
+                            }
                             <li class="divider"></li>
                             <li>@Html.ActionLink("Previous Games", "History", "Game")</li>
                         </ul>
