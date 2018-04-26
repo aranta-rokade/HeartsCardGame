@@ -41,6 +41,10 @@
           <Property Name="Player2Card" Type="nvarchar" MaxLength="4" />
           <Property Name="Player3Card" Type="nvarchar" MaxLength="4" />
           <Property Name="Player4Card" Type="nvarchar" MaxLength="4" />
+          <Property Name="Player1Trash" Type="nvarchar(max)" />
+          <Property Name="Player2Trash" Type="nvarchar(max)" />
+          <Property Name="Player3Trash" Type="nvarchar(max)" />
+          <Property Name="Player4Trash" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="Move">
           <Key>
@@ -230,6 +234,10 @@
           <Property Name="Player2Card" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
           <Property Name="Player3Card" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
           <Property Name="Player4Card" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="Player2Trash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Player1Trash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Player3Trash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Player4Trash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Move">
           <Key>
@@ -390,6 +398,10 @@
           <EntitySetMapping Name="Games">
             <EntityTypeMapping TypeName="HeartsModel.Game">
               <MappingFragment StoreEntitySet="Game">
+                <ScalarProperty Name="Player4Trash" ColumnName="Player4Trash" />
+                <ScalarProperty Name="Player3Trash" ColumnName="Player3Trash" />
+                <ScalarProperty Name="Player1Trash" ColumnName="Player1Trash" />
+                <ScalarProperty Name="Player2Trash" ColumnName="Player2Trash" />
                 <ScalarProperty Name="Player4Card" ColumnName="Player4Card" />
                 <ScalarProperty Name="Player3Card" ColumnName="Player3Card" />
                 <ScalarProperty Name="Player2Card" ColumnName="Player2Card" />

@@ -34,7 +34,6 @@ namespace Hearts.BAL
             }
             catch (Exception e)
             {
-                //TODO: logger.Error(e);
                 throw new Exception("Oops! Some error occured.");
             }
         }
@@ -95,20 +94,24 @@ namespace Hearts.BAL
                 var new_game = gdal.AddPlayer(playerid, game.GameId);
                 udal.UpdateActiveGame(playerid, new_game.GameId);
 
-                WaitForPlayers(time, new_game.GameId);
-
-                game = gdal.GetGame(game.GameId);
 
                 // check if game room is full
                 if (game.Player1 != null && game.Player2 != null && game.Player3 != null && game.Player4 != null)
                 {
                     InitializeGame(game.GameId);
+                    WaitForPlayers(time, new_game.GameId);
                     return hashing.Encrypt(new_game.GameId.ToString());
                 }
 
-                AbortGame(hashedGameId);
-                throw new CustomException("Timeout. Players insufficient.");
-
+                WaitForPlayers(time, new_game.GameId);
+                
+                game = gdal.GetGame(game.GameId);
+                if (game.Status != (int)GameStatus.Started)
+                {
+                    AbortGame(hashedGameId);
+                    throw new CustomException("Timeout. Players insufficient.");
+                }
+                else return hashing.Encrypt(new_game.GameId.ToString());
             }
             catch (CustomException e)
             {
@@ -121,115 +124,252 @@ namespace Hearts.BAL
             }
         }
 
+        public bool MakeMove(GameModel gameModel, string hashedUserId)
+        {
+            try
+            {
+                GameDAL gdal = new GameDAL();
+                UserDAL udal = new UserDAL();
+                Hashing unhash = new Hashing();
+
+                var g = unhash.Decrypt(gameModel.GameURL);
+                int gameId = Convert.ToInt32(g);
+                int userId = Convert.ToInt32(unhash.Decrypt(hashedUserId));
+
+                var game = gdal.GetGame(gameId);
+                var user = udal.GetUserById(userId);
+
+                if (user.ActiveGameId != game.GameId)
+                    throw new CustomException("You are not a part of this game.");
+
+                //set cards in hand
+                List<Card> cardsInHand = null;
+                if (game.Player1.Value == userId)
+                    cardsInHand = ConvertStringtoListCard(game.Player1Hand, game.Player1.Value);
+                else if (game.Player2.Value == userId)
+                    cardsInHand = ConvertStringtoListCard(game.Player2Hand, game.Player2.Value);
+                else if (game.Player3.Value == userId)
+                    cardsInHand = ConvertStringtoListCard(game.Player3Hand, game.Player3.Value);
+                else if (game.Player4.Value == userId)
+                    cardsInHand = ConvertStringtoListCard(game.Player4Hand, game.Player4.Value);
+
+                // check pass the trash
+                if (game.PassOrPlay == 1)
+                {
+                    if ((game.Player1 == userId && game.Player1Trash!=null && game.Player1Trash.Length > 1)
+                        || (game.Player2 == userId && game.Player2Trash != null && game.Player2Trash.Length > 1)
+                        || (game.Player3 == userId && game.Player3Trash != null && game.Player3Trash.Length > 1)
+                        || (game.Player4 == userId && game.Player4Trash != null && game.Player4Trash.Length > 1))
+                        throw new CustomException("You have already passed the trash. Wait for the game to begin.");
+
+
+                    if (gameModel.CardsToPass.FindAll(x => x.IsSlected).Count != 3)
+                        throw new CustomException("Select only THREE cards to pass.");
+                    //check valid card
+                    foreach (var item in gameModel.CardsToPass)
+                    {
+                        if (item.IsSlected)
+                        {
+                            if(item.Suit == Suit.Clubs && item.Value == Value.Two)
+                                throw new CustomException(String.Format("{0} You cannot pass this : ", item.Name));
+                            if (cardsInHand.Find(x => x.Suit == item.Suit && x.Value == item.Value) == null)
+                                throw new CustomException(String.Format("{0} Invalid card. You do not hve this card in your hand", item.Name));
+                            else
+                                cardsInHand.RemoveAll(x => x.Suit == item.Suit && x.Value == item.Value);
+                        }
+                    }
+                }
+
+                //check card to play
+                else if (game.PassOrPlay == 2)
+                {
+                    if (game.Turn != userId)
+                        throw new CustomException("It it not your turn.");
+
+                    gameModel.CardSelected = new Card();
+                    gameModel.CardSelected.ConvertStringToCard(gameModel.CardSelectedString);
+
+                    if (cardsInHand.Find(x => x.Suit == gameModel.CardSelected.Suit && x.Value == gameModel.CardSelected.Value) == null)
+                        throw new CustomException(String.Format("{0} Invalid card. You do not hve this card in your hand", gameModel.CardSelected.Name));
+                    //if(Card is a valid move)
+                        cardsInHand.RemoveAll(x => x.Suit == gameModel.CardSelected.Suit && x.Value == gameModel.CardSelected.Value);
+                        //update the PlayerCard, Turn
+                        // if all players played, calculate points
+                    //else
+                        //throw invalid move exception
+                }
+
+                //update cards in hand
+                if (game.PassOrPlay == 1 || game.PassOrPlay == 2)
+                {
+                    string newHand = "";
+                    foreach (var card in cardsInHand)
+                        newHand = newHand + "," + card.Value + "-" + card.Suit;
+
+                    if (game.Player1.Value == userId)
+                        game.Player1Hand = newHand;
+                    else if (game.Player2.Value == userId)
+                        game.Player2Hand = newHand;
+                    else if (game.Player3.Value == userId)
+                        game.Player3Hand = newHand;
+                    else if (game.Player4.Value == userId)
+                        game.Player4Hand = newHand;
+
+                    //if PassOrPlay == 2 && all cards of all the players are over
+                    // call Inititalize round function
+
+                    if (game.PassOrPlay == 1)
+                    {
+                        foreach (var card in gameModel.CardsToPass)
+                            if (card.IsSlected)
+                            {
+                                if (game.Player1.Value == userId)
+                                    game.Player1Trash = game.Player1Trash + "," + card.Value + "-" + card.Suit;
+                                else if (game.Player2.Value == userId)
+                                    game.Player2Trash = game.Player2Trash + "," + card.Value + "-" + card.Suit;
+                                else if (game.Player3.Value == userId)
+                                    game.Player3Trash = game.Player3Trash + "," + card.Value + "-" + card.Suit;
+                                else if (game.Player4.Value == userId)
+                                    game.Player4Trash = game.Player4Trash + "," + card.Value + "-" + card.Suit;
+                            }
+                        
+                    }
+                    gdal.UpdateGameAfterMove(game, userId);
+                    return true;
+                }
+                return false;
+            }
+            catch (CustomException e)
+            {
+                throw new CustomException(e.Message);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Oops! Some error occured.");
+            }
+        }
+
         public GameModel GetGame(string hashedGameId, string hashedUserId)
         {
-            GameDAL gdal = new GameDAL();
-            UserDAL udal = new UserDAL();
-            Hashing unhash = new Hashing();
-
-            var g = unhash.Decrypt(hashedGameId);
-            int gameId = Convert.ToInt32(g);
-            int userId = Convert.ToInt32(unhash.Decrypt(hashedUserId));
-
-            var game = gdal.GetGame(gameId);
-            var user = udal.GetUserById(userId);
-
-            if (game.Player1.Value != user.UserId &&
-                game.Player2.Value != user.UserId &&
-                game.Player3.Value != user.UserId &&
-                game.Player4.Value != user.UserId)
-                throw new CustomException("You cannot access this game currently. Join or create another game.");
-
-            if (game.Status == (int)GameStatus.Aborted || game.Status == (int)GameStatus.Ended)
-                throw new CustomException("Game has either aborted or ended.");
-
-            //resume a started or waiting game
-            GameModel gameModel = new GameModel
+            try
             {
-                GameURL = unhash.Encrypt(game.GameId.ToString()),
-                Status = game.Status,
-                EndTime = game.EndTime,
-                StartTime = game.StartTime
-            };
-            User player;
-            if (game.Player1 != null)
-            {
-                player = udal.GetUserById(game.Player1.Value);
-                gameModel.Player1 = new Player(player.UserId, player.Username);
-            }
-            if (game.Player2 != null)
-            {
-                player = udal.GetUserById(game.Player2.Value);
-                gameModel.Player2 = new Player(player.UserId, player.Username);
-            }
-            if (game.Player3 != null)
-            {
-                player = udal.GetUserById(game.Player3.Value);
-                gameModel.Player3 = new Player(player.UserId, player.Username);
-            }
-            if (game.Player4 != null)
-            {
-                player = udal.GetUserById(game.Player4.Value);
-                gameModel.Player4 = new Player(player.UserId, player.Username);
-            }
+                GameDAL gdal = new GameDAL();
+                UserDAL udal = new UserDAL();
+                Hashing unhash = new Hashing();
 
-            //return game status to player resuming the game
-            if (game.Status == (int)GameStatus.Started)
-            {
-                if(game.GameRound!=null)
-                gameModel.GameRound = game.GameRound.Value;
-                if (game.Turn != null)
-                    gameModel.PlayerTurn = game.Turn.Value;
-                if (game.PassOrPlay != null)
-                    gameModel.PassOrPlay = game.PassOrPlay.Value;
+                var g = unhash.Decrypt(hashedGameId);
+                int gameId = Convert.ToInt32(g);
+                int userId = Convert.ToInt32(unhash.Decrypt(hashedUserId));
 
-                if (game.LeadingSuit != null) {
-                    gameModel.Trick = new MoveModel();
-                    gameModel.Trick.LeadingSuit = (Suit)(game.LeadingSuit.Value);
-                    if (game.Player1Card != null)
-                    {
-                        gameModel.Trick.Card1 = new Card();
-                        gameModel.Trick.Card1.ConvertStringToCard(game.Player1Card);
-                    }
-                    if (game.Player2Card != null)
-                    {
-                        gameModel.Trick.Card2 = new Card();
-                        gameModel.Trick.Card2.ConvertStringToCard(game.Player2Card);
-                    }
-                    if (game.Player3Card != null)
-                    {
-                        gameModel.Trick.Card3 = new Card();
-                        gameModel.Trick.Card3.ConvertStringToCard(game.Player3Card);
-                    }
-                    if (game.Player4Card != null)
-                    {
-                        gameModel.Trick.Card4 = new Card();
-                        gameModel.Trick.Card4.ConvertStringToCard(game.Player4Card);
-                    }
-                }
-                    
-                if (game.Player1 == userId)
+                var game = gdal.GetGame(gameId);
+                var user = udal.GetUserById(userId);
+
+                if (game.Player1.Value != user.UserId &&
+                    game.Player2.Value != user.UserId &&
+                    game.Player3.Value != user.UserId &&
+                    game.Player4.Value != user.UserId)
+                    throw new CustomException("You cannot access this game currently. Join or create another game.");
+
+                if (game.Status == (int)GameStatus.Aborted || game.Status == (int)GameStatus.Ended)
+                    throw new CustomException("Game has either aborted or ended.");
+
+                //resume a started or waiting game
+                GameModel gameModel = new GameModel
                 {
-                    gameModel.Player1.Hand = ConvertStringtoListCard(game.Player1Hand, game.Player1.Value);
-                    gameModel.Player1.Stash = ConvertStringtoListCard(game.Player1Stash, game.Player1.Value);
-                }
-                else if (game.Player2 == userId)
+                    GameURL = unhash.Encrypt(game.GameId.ToString()),
+                    Status = game.Status,
+                    EndTime = game.EndTime,
+                    StartTime = game.StartTime
+                };
+                User player;
+                if (game.Player1 != null)
                 {
-                    gameModel.Player2.Hand = ConvertStringtoListCard(game.Player2Hand, game.Player2.Value);
-                    gameModel.Player2.Stash = ConvertStringtoListCard(game.Player2Stash, game.Player2.Value);
+                    player = udal.GetUserById(game.Player1.Value);
+                    gameModel.Player1 = new Player(player.UserId, player.Username);
                 }
-                else if (game.Player3 == userId)
+                if (game.Player2 != null)
                 {
-                    gameModel.Player3.Hand = ConvertStringtoListCard(game.Player3Hand, game.Player3.Value);
-                    gameModel.Player3.Stash = ConvertStringtoListCard(game.Player3Stash, game.Player3.Value);
+                    player = udal.GetUserById(game.Player2.Value);
+                    gameModel.Player2 = new Player(player.UserId, player.Username);
                 }
-                else if (game.Player4 == userId)
+                if (game.Player3 != null)
                 {
-                    gameModel.Player4.Hand = ConvertStringtoListCard(game.Player4Hand, game.Player4.Value);
-                    gameModel.Player4.Stash = ConvertStringtoListCard(game.Player4Stash, game.Player4.Value);
+                    player = udal.GetUserById(game.Player3.Value);
+                    gameModel.Player3 = new Player(player.UserId, player.Username);
                 }
+                if (game.Player4 != null)
+                {
+                    player = udal.GetUserById(game.Player4.Value);
+                    gameModel.Player4 = new Player(player.UserId, player.Username);
+                }
+
+                //return game status to player resuming the game
+                if (game.Status == (int)GameStatus.Started)
+                {
+                    if (game.GameRound != null)
+                        gameModel.GameRound = game.GameRound.Value;
+                    if (game.Turn != null)
+                        gameModel.PlayerTurn = game.Turn.Value;
+                    if (game.PassOrPlay != null)
+                        gameModel.PassOrPlay = game.PassOrPlay.Value;
+
+                    if (game.LeadingSuit != null)
+                    {
+                        gameModel.Trick = new MoveModel();
+                        gameModel.Trick.LeadingSuit = (Suit)(game.LeadingSuit.Value);
+                        if (game.Player1Card != null)
+                        {
+                            gameModel.Trick.Card1 = new Card();
+                            gameModel.Trick.Card1.ConvertStringToCard(game.Player1Card);
+                        }
+                        if (game.Player2Card != null)
+                        {
+                            gameModel.Trick.Card2 = new Card();
+                            gameModel.Trick.Card2.ConvertStringToCard(game.Player2Card);
+                        }
+                        if (game.Player3Card != null)
+                        {
+                            gameModel.Trick.Card3 = new Card();
+                            gameModel.Trick.Card3.ConvertStringToCard(game.Player3Card);
+                        }
+                        if (game.Player4Card != null)
+                        {
+                            gameModel.Trick.Card4 = new Card();
+                            gameModel.Trick.Card4.ConvertStringToCard(game.Player4Card);
+                        }
+                    }
+
+                    if (game.Player1 == userId)
+                    {
+                        gameModel.Player1.Hand = ConvertStringtoListCard(game.Player1Hand, game.Player1.Value);
+                        gameModel.Player1.Stash = ConvertStringtoListCard(game.Player1Stash, game.Player1.Value);
+                    }
+                    else if (game.Player2 == userId)
+                    {
+                        gameModel.Player2.Hand = ConvertStringtoListCard(game.Player2Hand, game.Player2.Value);
+                        gameModel.Player2.Stash = ConvertStringtoListCard(game.Player2Stash, game.Player2.Value);
+                    }
+                    else if (game.Player3 == userId)
+                    {
+                        gameModel.Player3.Hand = ConvertStringtoListCard(game.Player3Hand, game.Player3.Value);
+                        gameModel.Player3.Stash = ConvertStringtoListCard(game.Player3Stash, game.Player3.Value);
+                    }
+                    else if (game.Player4 == userId)
+                    {
+                        gameModel.Player4.Hand = ConvertStringtoListCard(game.Player4Hand, game.Player4.Value);
+                        gameModel.Player4.Stash = ConvertStringtoListCard(game.Player4Stash, game.Player4.Value);
+                    }
+                }
+                return gameModel;
             }
-            return gameModel;
+            catch (CustomException e)
+            {
+                throw new CustomException(e.Message);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Oops! Some error occured.");
+            }
         }
 
         public List<GameModel> GetAllWaitingGames()
@@ -290,18 +430,28 @@ namespace Hearts.BAL
 
         }
 
-        public void WaitForPlayers(int seconds, int gameId)
+        private void WaitForPlayers(int seconds, int gameId)
         {
             System.Threading.Thread.Sleep(seconds * 1000);
         }
 
         public bool AbortGame(string hashedgameId)
         {
-            GameDAL gdal = new GameDAL();
-            Hashing unhash = new Hashing();
-            int gameId = Convert.ToInt32(unhash.Decrypt(hashedgameId));
-            return gdal.AbortGame(gameId);
-
+            try
+            {
+                GameDAL gdal = new GameDAL();
+                Hashing unhash = new Hashing();
+                int gameId = Convert.ToInt32(unhash.Decrypt(hashedgameId));
+                return gdal.AbortGame(gameId);
+            }
+            catch (CustomException e)
+            {
+                throw new CustomException(e.Message);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Oops! Some error occured.");
+            }
         }
 
         private void InitializeGame(int gameId)
@@ -315,31 +465,92 @@ namespace Hearts.BAL
             gameModel.InitializeDeck();
             gameModel.DealCards();
 
-            Game game = new Game();
+            var g_dal = new GameDAL();
+            var game = g_dal.GetGame(gameId);
             game.GameId = gameId;
             game.Status = (int)GameStatus.Started;
             game.PassOrPlay = 1;
             game.GameRound = 1;
 
+            if(game.Player1!=null)
+                foreach (var card in gameModel.Player1.Hand)
+                {
+                    if (card.Suit == Suit.Clubs && card.Value == Value.Two)
+                        game.Turn = game.Player1.Value;
+                    game.Player1Hand = game.Player1Hand + "," + card.Value + "-" + card.Suit;
+                }
+            if (game.Player2 != null)
+                foreach (var card in gameModel.Player2.Hand)
+                {
+                    if (card.Suit == Suit.Clubs && card.Value == Value.Two)
+                        game.Turn = game.Player2.Value;
+                    game.Player2Hand = game.Player2Hand + "," + card.Value + "-" + card.Suit;
+                }
+            if (game.Player3 != null)
+                foreach (var card in gameModel.Player3.Hand)
+                {
+                    if (card.Suit == Suit.Clubs && card.Value == Value.Two)
+                        game.Turn = game.Player3.Value;
+                    game.Player3Hand = game.Player3Hand + "," + card.Value + "-" + card.Suit;
+                }
+            if (game.Player4 != null)
+                foreach (var card in gameModel.Player4.Hand)
+                {
+                    if (card.Suit == Suit.Clubs && card.Value == Value.Two)
+                        game.Turn = game.Player4.Value;
+                    game.Player4Hand = game.Player4Hand + "," + card.Value + "-" + card.Suit;
+                }
+
+            
+            g_dal.UpdateGameAfterInit(game);
+        }
+
+        private void InitializeRound(int gameId) {
+            GameModel gameModel = new GameModel();
+            gameModel.Player1 = new Player();
+            gameModel.Player2 = new Player();
+            gameModel.Player3 = new Player();
+            gameModel.Player4 = new Player();
+
+            gameModel.InitializeDeck();
+            gameModel.DealCards();
+
+            Game game = new GameDAL().GetGame(gameId);
+            game.GameId = gameId;
+            game.Status = (int)GameStatus.Started;
+            game.GameRound++;
+            if (game.GameRound == 4)
+                game.PassOrPlay = 2;
+            else
+                game.PassOrPlay = 1;
+
             foreach (var card in gameModel.Player1.Hand)
             {
+                if (card.Suit == Suit.Clubs && card.Value == Value.Two)
+                    game.Turn = game.Player1.Value;
                 game.Player1Hand = game.Player1Hand + "," + card.Value + "-" + card.Suit;
             }
             foreach (var card in gameModel.Player2.Hand)
             {
+                if (card.Suit == Suit.Clubs && card.Value == Value.Two)
+                    game.Turn = game.Player2.Value;
                 game.Player2Hand = game.Player2Hand + "," + card.Value + "-" + card.Suit;
             }
             foreach (var card in gameModel.Player3.Hand)
             {
+                if (card.Suit == Suit.Clubs && card.Value == Value.Two)
+                    game.Turn = game.Player3.Value;
                 game.Player3Hand = game.Player3Hand + "," + card.Value + "-" + card.Suit;
             }
             foreach (var card in gameModel.Player4.Hand)
             {
+                if (card.Suit == Suit.Clubs && card.Value == Value.Two)
+                    game.Turn = game.Player3.Value;
                 game.Player4Hand = game.Player4Hand + "," + card.Value + "-" + card.Suit;
             }
 
             var g_dal = new GameDAL();
-            g_dal.UpdateGameAfterMove(game);
+            g_dal.UpdateGameAfterInit(game);
         }
 
         private List<Card> ConvertStringtoListCard(string listString, int playerId)
@@ -364,5 +575,6 @@ namespace Hearts.BAL
             }
             return cards;
         }
+
     }
 }

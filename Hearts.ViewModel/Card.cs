@@ -12,10 +12,18 @@ namespace Hearts.ViewModel
         public Value Value { get; set; }
         public int PlayerId { get; set; }
         public int Points { get; set; }
+        public bool IsSlected { get; set; }
         public string Name {
             get
             {
                 return String.Format("{0} of {1}", Value, Suit);
+            }
+        }
+        public string Id
+        {
+            get
+            {
+                return String.Format("{0}-{1}", Value, Suit);
             }
         }
 

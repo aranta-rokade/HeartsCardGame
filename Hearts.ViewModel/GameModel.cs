@@ -48,6 +48,10 @@ namespace Hearts.ViewModel
         [Display(Name = "Selected Card")]
         public Card CardSelected { get; set; }
 
+        public string CardSelectedString { get; set; }
+
+        public List<Card> CardsToPass { get; set; }
+
         [Display(Name = "Round")]
         public int GameRound { get; set; }
 
@@ -61,19 +65,6 @@ namespace Hearts.ViewModel
                     Card cardToAdd = new Card(suit, value);
                     Deck.Add(cardToAdd);
                 }
-        }
-
-        public void Shuffle()
-        {
-            List<Card> temporaryDeck = new List<Card>();
-            Random random = new Random();
-            while (Deck.Count > 0)
-            {
-                int index = random.Next(0, Deck.Count);
-                Deck.RemoveAt(index);
-                temporaryDeck.Add(Deck[index]);
-            }
-            Deck = temporaryDeck;
         }
 
         private Card Deal() 

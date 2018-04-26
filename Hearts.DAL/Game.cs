@@ -53,6 +53,13 @@ namespace Hearts.DAL
         public string Player2Card { get; set; }
         public string Player3Card { get; set; }
         public string Player4Card { get; set; }
+        public string Player2Trash { get; set; }
+        public string Playe1Trash { get; set; }
+        public string Playe3Trash { get; set; }
+        public string Playe4Trash { get; set; }
+        public string Player1Trash { get; set; }
+        public string Player3Trash { get; set; }
+        public string Player4Trash { get; set; }
     
         public virtual User User { get; set; }
         public virtual User User1 { get; set; }
@@ -63,6 +70,7 @@ namespace Hearts.DAL
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> Users { get; set; }
     }
+
     public enum GameStatus
     {
         Waiting,
@@ -70,4 +78,5 @@ namespace Hearts.DAL
         Aborted,
         Ended
     }
+
 }

@@ -69,7 +69,7 @@
     </dl>
 </div>
 <div>
-    @using (Html.BeginForm("Login", "Account", new { returnUrl = ViewBag.returnUrl }, FormMethod.Post, new { autocomplete = "off" }))
+    @using (Html.BeginForm("MakeMove", "Game", FormMethod.Post, new { autocomplete = "off" }))
     {
         @Html.AntiForgeryToken()
         <div class="form-horizontal">
@@ -79,43 +79,19 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
                 <div class="radio">
+                    @Html.HiddenFor(model => model.GameURL)
                     @if (Model.PassOrPlay == 1) {
                         <div>
                             Pass 3 cards
                         </div>
-                        @if (Model.Player1 != null) {
-                            foreach (var a in Model.Player1.Hand)
+                        if (Model.CardsToPass != null) {
+                            for (var i = 0; i < Model.CardsToPass.Count(); i++)
                             {
-                                <p>
-                                    @Html.RadioButtonFor(m => m.CardSelected, a) @a.Name
-                        
-                                </p>
-                            }
-                        }
-                        if (Model.Player2 != null) {
-                            foreach (var a in Model.Player2.Hand)
-                            {
-                                <p>
-                                    @Html.RadioButtonFor(m => m.CardSelected, a) @a.Name
-                        
-                                </p>
-                            }
-                        }
-                        if (Model.Player3 != null) {
-                            foreach (var a in Model.Player3.Hand)
-                            {
-                                <p>
-                                    @Html.RadioButtonFor(m => m.CardSelected, a) @a.Name
-                        
-                                </p>
-                            }
-                        }
-                        if (Model.Player4 != null) {
-                            foreach (var a in Model.Player4.Hand)
-                            {
-                                <p>
-                                    @Html.RadioButtonFor(m => m.CardSelected, a) @a.Name
-                                </p>
+                                @Html.HiddenFor(model => model.CardsToPass[i].Id)
+                                @Html.HiddenFor(model => model.CardsToPass[i].Value)
+                                @Html.HiddenFor(model => model.CardsToPass[i].Suit) 
+                                @Html.CheckBoxFor(model => model.CardsToPass[i].IsSlected)
+                                @Html.LabelFor(model=> model.CardsToPass[i].Id, Model.CardsToPass[i].Name)
                             }
                         }
                     }
@@ -124,12 +100,11 @@
                         <div>
                             Play your card
                         </div>
-                        @if (Model.Player1 != null) {
+                        if (Model.Player1 != null) {
                             foreach (var a in Model.Player1.Hand)
                             {
                                 <p>
-                                    @Html.RadioButtonFor(m => m.CardSelected, a) @a.Name
-                        
+                                    @Html.RadioButtonFor(m => m.CardSelectedString, a.Id, new { id=a.Name }) @a.Name
                                 </p>
                             }
                         }
@@ -137,8 +112,7 @@
                             foreach (var a in Model.Player2.Hand)
                             {
                                 <p>
-                                    @Html.RadioButtonFor(m => m.CardSelected, a) @a.Name
-                        
+                                    @Html.RadioButtonFor(m => m.CardSelectedString, a.Id, new { id = a.Name }) @a.Name
                                 </p>
                             }
                         }
@@ -146,8 +120,7 @@
                             foreach (var a in Model.Player3.Hand)
                             {
                                 <p>
-                                    @Html.RadioButtonFor(m => m.CardSelected, a) @a.Name
-                        
+                                    @Html.RadioButtonFor(m => m.CardSelectedString, a.Id, new { id = a.Name }) @a.Name
                                 </p>
                             }
                         }
@@ -155,7 +128,7 @@
                             foreach (var a in Model.Player4.Hand)
                             {
                                 <p>
-                                    @Html.RadioButtonFor(m => m.CardSelected, a) @a.Name
+                                    @Html.RadioButtonFor(m => m.CardSelectedString, a.Id, new { id = a.Name }) @a.Name
                                 </p>
                             }
                         }
