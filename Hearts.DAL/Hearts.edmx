@@ -5,6 +5,21 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="HeartsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AuditTrail">
+          <Key>
+            <PropertyRef Name="AuditTrailId" />
+          </Key>
+          <Property Name="UserId" Type="int" />
+          <Property Name="SessionId" Type="nvarchar(max)" />
+          <Property Name="IPAddress" Type="nvarchar(max)" />
+          <Property Name="PageAccessed" Type="nvarchar(max)" />
+          <Property Name="LoggedInAt" Type="datetime" />
+          <Property Name="LoggedInOut" Type="datetime" />
+          <Property Name="LoginStatus" Type="nvarchar(max)" />
+          <Property Name="ControllerName" Type="nvarchar(max)" />
+          <Property Name="ActionName" Type="nvarchar(max)" />
+          <Property Name="AuditTrailId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
         <EntityType Name="Game">
           <Key>
             <PropertyRef Name="GameId" />
@@ -156,6 +171,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="HeartsModelStoreContainer">
+          <EntitySet Name="AuditTrail" EntityType="Self.AuditTrail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Game" EntityType="Self.Game" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Move" EntityType="Self.Move" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
@@ -388,7 +404,23 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Move" EntitySet="Moves" />
           </AssociationSet>
+          <EntitySet Name="AuditTrails" EntityType="HeartsModel.AuditTrail" />
         </EntityContainer>
+        <EntityType Name="AuditTrail">
+          <Key>
+            <PropertyRef Name="AuditTrailId" />
+          </Key>
+          <Property Name="AuditTrailId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="SessionId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IPAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PageAccessed" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LoggedInAt" Type="DateTime" Precision="3" />
+          <Property Name="LoggedInOut" Type="DateTime" Precision="3" />
+          <Property Name="LoginStatus" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ControllerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ActionName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -461,6 +493,22 @@
                 <ScalarProperty Name="EmailId" ColumnName="EmailId" />
                 <ScalarProperty Name="Username" ColumnName="Username" />
                 <ScalarProperty Name="LastModifiedTime" ColumnName="LastModifiedTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AuditTrails">
+            <EntityTypeMapping TypeName="HeartsModel.AuditTrail">
+              <MappingFragment StoreEntitySet="AuditTrail">
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
+                <ScalarProperty Name="LoginStatus" ColumnName="LoginStatus" />
+                <ScalarProperty Name="LoggedInOut" ColumnName="LoggedInOut" />
+                <ScalarProperty Name="LoggedInAt" ColumnName="LoggedInAt" />
+                <ScalarProperty Name="PageAccessed" ColumnName="PageAccessed" />
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="SessionId" ColumnName="SessionId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="AuditTrailId" ColumnName="AuditTrailId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

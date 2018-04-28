@@ -15,6 +15,7 @@
         <AssociationConnector Association="HeartsModel.FK_Move_Game" ManuallyRouted="false" />
         <AssociationConnector Association="HeartsModel.FK_User_ActiveGame" ManuallyRouted="false" />
         <AssociationConnector Association="HeartsModel.FK_Move_Player" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="HeartsModel.AuditTrail" Width="1.5" PointX="5.375" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

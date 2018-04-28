@@ -158,6 +158,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\GameController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="CustomAttributes\AuditTrailFilter.cs" />
     <Compile Include="CustomAttributes\CustomAuthorizeAttribute.cs" />
     <Compile Include="CustomAttributes\NoCacheAttribute.cs" />
     <Compile Include="Global.asax.cs">

@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuditTrailBAL.cs" />
     <Compile Include="GameBAL.cs" />
     <Compile Include="UserBAL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

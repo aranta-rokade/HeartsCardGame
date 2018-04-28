@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuditTrailModel.cs" />
     <Compile Include="Card.cs" />
     <Compile Include="LoginModel.cs" />
     <Compile Include="GameModel.cs" />

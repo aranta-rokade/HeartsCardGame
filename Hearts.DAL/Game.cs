@@ -54,9 +54,6 @@ namespace Hearts.DAL
         public string Player3Card { get; set; }
         public string Player4Card { get; set; }
         public string Player2Trash { get; set; }
-        public string Playe1Trash { get; set; }
-        public string Playe3Trash { get; set; }
-        public string Playe4Trash { get; set; }
         public string Player1Trash { get; set; }
         public string Player3Trash { get; set; }
         public string Player4Trash { get; set; }

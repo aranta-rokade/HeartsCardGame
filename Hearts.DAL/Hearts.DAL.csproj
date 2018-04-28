@@ -56,6 +56,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AudirTrailDAL.cs" />
+    <Compile Include="AuditTrail.cs">
+      <DependentUpon>Hearts.tt</DependentUpon>
+    </Compile>
     <Compile Include="Game.cs">
       <DependentUpon>Hearts.tt</DependentUpon>
     </Compile>

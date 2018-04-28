@@ -191,12 +191,12 @@ namespace Hearts.BAL
 
                     if (cardsInHand.Find(x => x.Suit == gameModel.CardSelected.Suit && x.Value == gameModel.CardSelected.Value) == null)
                         throw new CustomException(String.Format("{0} Invalid card. You do not hve this card in your hand", gameModel.CardSelected.Name));
-                    //if(Card is a valid move)
-                        cardsInHand.RemoveAll(x => x.Suit == gameModel.CardSelected.Suit && x.Value == gameModel.CardSelected.Value);
+                    //if(Card is not a valid move)
+                        //throw invalid move exception
+                    // else 
+                    cardsInHand.RemoveAll(x => x.Suit == gameModel.CardSelected.Suit && x.Value == gameModel.CardSelected.Value);
                         //update the PlayerCard, Turn
                         // if all players played, calculate points
-                    //else
-                        //throw invalid move exception
                 }
 
                 //update cards in hand

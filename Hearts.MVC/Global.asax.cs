@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Hearts.MVC.CustomAttributes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,6 +17,8 @@ namespace Hearts.MVC
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            //Register AuditTrail Attribute
+            GlobalFilters.Filters.Add(new AuditTrailFilter());
             //Remove X-AspNetMvc-Version Response Header
             MvcHandler.DisableMvcResponseHeader = true;
         }

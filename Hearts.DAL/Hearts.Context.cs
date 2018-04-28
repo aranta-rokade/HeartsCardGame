@@ -28,5 +28,6 @@ namespace Hearts.DAL
         public virtual DbSet<Game> Games { get; set; }
         public virtual DbSet<Move> Moves { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<AuditTrail> AuditTrails { get; set; }
     }
 }
