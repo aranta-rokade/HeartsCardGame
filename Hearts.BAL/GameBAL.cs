@@ -1,5 +1,6 @@
 ﻿using Hearts.DAL;
 using Hearts.ViewModel;
+using NLog;
 using System;
 using System.Collections.Generic;
 using Utility;
@@ -8,11 +9,12 @@ namespace Hearts.BAL
 {
     public class GameBAL
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         public string NewGame(string hashedPlayerId)
         {
             try
             {
-                Hashing hashing = new Hashing();
+                CustomCrypto hashing = new CustomCrypto();
                 int playerId = Convert.ToInt32(hashing.Decrypt(hashedPlayerId));
                 GameDAL gdal = new GameDAL();
                 int gameId = gdal.AddGame(playerId);
@@ -34,6 +36,7 @@ namespace Hearts.BAL
             }
             catch (Exception e)
             {
+                logger.Error(e);
                 throw new Exception("Oops! Some error occured.");
             }
         }
@@ -44,7 +47,7 @@ namespace Hearts.BAL
             {
                 GameDAL gdal = new GameDAL();
                 UserDAL udal = new UserDAL();
-                Hashing hashing = new Hashing();
+                CustomCrypto hashing = new CustomCrypto();
 
                 int gameId = Convert.ToInt32(hashing.Decrypt(hashedGameId));
                 int playerid = Convert.ToInt32(hashing.Decrypt(hashedPlayerid));
@@ -119,7 +122,7 @@ namespace Hearts.BAL
             }
             catch (Exception e)
             {
-                //TODO: logger.Error(e);
+                logger.Error(e);
                 throw new Exception("Oops! Some error occured.");
             }
         }
@@ -130,7 +133,7 @@ namespace Hearts.BAL
             {
                 GameDAL gdal = new GameDAL();
                 UserDAL udal = new UserDAL();
-                Hashing unhash = new Hashing();
+                CustomCrypto unhash = new CustomCrypto();
 
                 var g = unhash.Decrypt(gameModel.GameURL);
                 int gameId = Convert.ToInt32(g);
@@ -245,6 +248,7 @@ namespace Hearts.BAL
             }
             catch (Exception e)
             {
+                logger.Error(e);
                 throw new Exception("Oops! Some error occured.");
             }
         }
@@ -255,7 +259,7 @@ namespace Hearts.BAL
             {
                 GameDAL gdal = new GameDAL();
                 UserDAL udal = new UserDAL();
-                Hashing unhash = new Hashing();
+                CustomCrypto unhash = new CustomCrypto();
 
                 var g = unhash.Decrypt(hashedGameId);
                 int gameId = Convert.ToInt32(g);
@@ -368,6 +372,7 @@ namespace Hearts.BAL
             }
             catch (Exception e)
             {
+                logger.Error(e);
                 throw new Exception("Oops! Some error occured.");
             }
         }
@@ -378,7 +383,7 @@ namespace Hearts.BAL
             {
                 GameDAL gdal = new GameDAL();
                 UserDAL udal = new UserDAL();
-                Hashing hashing = new Hashing();
+                CustomCrypto hashing = new CustomCrypto();
 
                 var games = gdal.GetAllWaitingGames();
                 List<GameModel> waiting_game = new List<GameModel>();
@@ -424,7 +429,7 @@ namespace Hearts.BAL
             }
             catch (Exception e)
             {
-                //TODO: logger.Error(e);
+                logger.Error(e);
                 throw new Exception("Oops! Some error occured.");
             }
 
@@ -440,7 +445,7 @@ namespace Hearts.BAL
             try
             {
                 GameDAL gdal = new GameDAL();
-                Hashing unhash = new Hashing();
+                CustomCrypto unhash = new CustomCrypto();
                 int gameId = Convert.ToInt32(unhash.Decrypt(hashedgameId));
                 return gdal.AbortGame(gameId);
             }
@@ -450,6 +455,7 @@ namespace Hearts.BAL
             }
             catch (Exception e)
             {
+                logger.Error(e);
                 throw new Exception("Oops! Some error occured.");
             }
         }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace Hearts.DAL
 {
     public class GameDAL
     {
-        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         public Game GetGame(int gameId)
         {
             using (var db = new HeartsEntities())
@@ -50,6 +51,7 @@ namespace Hearts.DAL
                 db.SaveChanges();
 
                 user.ActiveGameId = game.GameId;
+                logger.Info("GamedId: {0} - added.", game.GameId);
                 db.SaveChanges();
 
                 return game.GameId;
@@ -63,6 +65,7 @@ namespace Hearts.DAL
                 var g = db.Games.FirstOrDefault(x=>x.GameId == gameId);
                 if (g.Status==(int)GameStatus.Aborted || g.Status == (int)GameStatus.Ended)
                 {
+                    logger.Warn("GameId: {0} - doesn't exist anymore..", gameId);
                     throw new CustomException("Game doesn't exist anymore.");
                 }
                 if (g.Player1 == null)
@@ -143,6 +146,7 @@ namespace Hearts.DAL
                     player.ActiveGameId = null;
 
                 game.Status = (int)GameStatus.Aborted;
+                logger.Info("GameId: {0} - aborted.", game.GameId);
                 db.SaveChanges();
                 return true;
            
@@ -228,7 +232,10 @@ namespace Hearts.DAL
             {
                 var game = db.Games.FirstOrDefault(x=>x.GameId == initGame.GameId);
                 if (game == null)
+                {
+                    logger.Info("GameId: {0} - invalid game.", game.GameId);
                     throw new CustomException("Invalid Game.");
+                }
                 game.Turn = initGame.Turn;
                 game.Status = initGame.Status;
                 game.PassOrPlay = initGame.PassOrPlay;

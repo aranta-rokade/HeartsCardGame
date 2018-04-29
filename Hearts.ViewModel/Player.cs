@@ -55,7 +55,7 @@ namespace Hearts.ViewModel
             PassOrSelect = true;
             Hand = new List<Card>();
             CardsToPass = new List<Card>();
-            UserId = new Hashing().Encrypt(Convert.ToString(userId));
+            UserId = new CustomCrypto().Encrypt(Convert.ToString(userId));
             UserName = username;
         } 
 

@@ -1,0 +1,22 @@
+2018-04-29 00:22:05.6098|INFO|Hearts.DAL.UserDAL|UserId: 3 - Logged in.
+2018-04-29 00:22:05.7067|ERROR|Hearts.BAL.UserBAL|BCrypt.Net.SaltParseException: Invalid salt version
+   at BCrypt.Net.BCrypt.HashPassword(String input, String salt)
+   at BCrypt.Net.BCrypt.Verify(String text, String hash)
+   at Utility.CustomCrypto.ValidateHash(String word, String hash) in C:\Users\arant\Documents\HeartsCardGame\Utility\Hashing.cs:line 19
+   at Hearts.BAL.UserBAL.ValidateUser(String username, String password) in C:\Users\arant\Documents\HeartsCardGame\Hearts.BAL\UserBAL.cs:line 52
+2018-04-29 00:23:01.2809|INFO|Hearts.DAL.UserDAL|UserId: 1014 - Registered.
+2018-04-29 00:23:12.6262|INFO|Hearts.DAL.UserDAL|UserId: 1014 - Logged in.
+2018-04-29 00:23:12.6548|ERROR|Hearts.BAL.UserBAL|BCrypt.Net.SaltParseException: Invalid salt version
+   at BCrypt.Net.BCrypt.HashPassword(String input, String salt)
+   at BCrypt.Net.BCrypt.Verify(String text, String hash)
+   at Utility.CustomCrypto.ValidateHash(String word, String hash) in C:\Users\arant\Documents\HeartsCardGame\Utility\Hashing.cs:line 19
+   at Hearts.BAL.UserBAL.ValidateUser(String username, String password) in C:\Users\arant\Documents\HeartsCardGame\Hearts.BAL\UserBAL.cs:line 52
+2018-04-29 00:23:29.1855|INFO|Hearts.DAL.UserDAL|UserId: 1014 - Logged in.
+2018-04-29 00:23:29.2125|ERROR|Hearts.BAL.UserBAL|BCrypt.Net.SaltParseException: Invalid salt version
+   at BCrypt.Net.BCrypt.HashPassword(String input, String salt)
+   at BCrypt.Net.BCrypt.Verify(String text, String hash)
+   at Utility.CustomCrypto.ValidateHash(String word, String hash) in C:\Users\arant\Documents\HeartsCardGame\Utility\Hashing.cs:line 19
+   at Hearts.BAL.UserBAL.ValidateUser(String username, String password) in C:\Users\arant\Documents\HeartsCardGame\Hearts.BAL\UserBAL.cs:line 52
+2018-04-29 00:23:59.3250|INFO|Hearts.DAL.UserDAL|UserId: 1014 - Logged in.
+2018-04-29 00:30:26.5169|INFO|Hearts.DAL.UserDAL|UserId: 1015 - Registered.
+2018-04-29 00:30:44.5729|INFO|Hearts.DAL.UserDAL|UserId: 1015 - Logged in.

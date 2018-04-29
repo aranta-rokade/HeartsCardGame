@@ -1,20 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Globalization;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Utility
 {
-    public class Hashing
+    public class CustomCrypto
     {
+        const int workFactor = 13;
 
         public string Hash(string word)
         {
-            return word;
+            return BCrypt.Net.BCrypt.HashPassword(word, workFactor);
+        }
+
+        public bool ValidateHash(string word, string hash)
+        {
+            return BCrypt.Net.BCrypt.Verify(word, hash);
         }
 
         public string Encrypt(string input)

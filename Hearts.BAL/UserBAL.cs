@@ -1,5 +1,6 @@
 ﻿using Hearts.DAL;
 using Hearts.ViewModel;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Hearts.BAL
 {
     public class UserBAL
     {
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         public bool AddUser(string username, string email, string password)
         {
             try
@@ -21,7 +23,7 @@ namespace Hearts.BAL
                 {
                     Username = username,
                     EmailId = email,
-                    Password = password,
+                    Password = new CustomCrypto().Hash(password),
                     LastModifiedTime = DateTime.Now
                 });
                 if (user != null)
@@ -34,7 +36,7 @@ namespace Hearts.BAL
             }
             catch (Exception e)
             {
-                //TODO: logger.Error(e);
+                logger.Error(e);
                 throw new Exception("Oops! Some error occured.");
             }
             
@@ -46,7 +48,8 @@ namespace Hearts.BAL
             {
                 //TODO: Password Hashing
                 UserDAL udal = new UserDAL();
-                return udal.Validate(new User { Username = username, Password = password });
+                string db_password = udal.Validate(username);
+                return new CustomCrypto().ValidateHash(password, db_password);
             }
             catch (CustomException e)
             {
@@ -54,7 +57,7 @@ namespace Hearts.BAL
             }
             catch (Exception e)
             {
-                //TODO: logger.Error(e);
+                logger.Error(e);
                 throw new Exception("Oops! Some error occured.");
             }
         }
@@ -63,7 +66,7 @@ namespace Hearts.BAL
         {
             try
             {
-                Hashing hashing = new Hashing();
+                CustomCrypto hashing = new CustomCrypto();
                 UserDAL udal = new UserDAL();
                 var user = udal.GetUserByUserName(username);
 
@@ -90,7 +93,7 @@ namespace Hearts.BAL
             }
             catch (Exception e)
             {
-                //TODO: logger.Error(e);
+                logger.Error(e);
                 throw new Exception("Oops! Some error occured.");
             }
         }
@@ -99,7 +102,7 @@ namespace Hearts.BAL
         {
             try
             {
-                Hashing hashing = new Hashing();
+                CustomCrypto hashing = new CustomCrypto();
                 UserDAL udal = new UserDAL();
                 var userId = Convert.ToInt32(hashing.Decrypt(hashedUserId));
                 var user = udal.GetUserById(userId);
@@ -127,7 +130,7 @@ namespace Hearts.BAL
             }
             catch (Exception e)
             {
-                //TODO: logger.Error(e);
+                logger.Error(e);
                 throw new Exception("Oops! Some error occured.");
             }
         }
@@ -135,7 +138,7 @@ namespace Hearts.BAL
         public List<UserModel> GetAllUsers() {
             try
             {
-                Hashing hashing = new Hashing();
+                CustomCrypto hashing = new CustomCrypto();
                 UserDAL u_dal = new UserDAL();
                 var users = u_dal.GetAllUsers();
                 List<UserModel> userModel = new List<UserModel>();
@@ -159,7 +162,7 @@ namespace Hearts.BAL
             }
             catch (Exception e)
             {
-                //TODO: logger.Error(e);
+                logger.Error(e);
                 throw new Exception("Oops! Some error occured.");
             }
         }

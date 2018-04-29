@@ -1,4 +1,4 @@
-﻿using System;
+﻿using NLog;
 using System.Collections.Generic;
 using System.Linq;
 using Utility;
@@ -7,7 +7,7 @@ namespace Hearts.DAL
 {
     public class UserDAL
     {
-        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private static Logger logger = LogManager.GetCurrentClassLogger();
         public User AddUser(User user)
         {
             using (var db = new HeartsEntities())
@@ -24,20 +24,18 @@ namespace Hearts.DAL
             }
         }
 
-        public bool Validate(User user)
+        public string Validate(string userName)
         {
             using (var db = new HeartsEntities())
             {
-                var u = db.Users.FirstOrDefault(x =>
-                        x.Username.Equals(user.Username) && x.Password.Equals(user.Password));
+                var u = db.Users.FirstOrDefault(x => x.Username.Equals(userName));
                 if (u != null)
                 {
-                    logger.Info("UserId: {0} - Logged in.", user.UserId);
-                    return true;
+                    logger.Info("UserId: {0} - Logged in.", u.UserId);
+                    return u.Password;
                 }
-
-                logger.Info("User name: {0} - Invalid Credentials.", user.Username);
-                return false;
+                logger.Info("User name: {0} - not found.", userName);
+                throw new CustomException("Username or password incorrect.");
             }
         }
 

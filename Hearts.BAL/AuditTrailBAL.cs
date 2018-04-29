@@ -26,7 +26,7 @@ namespace Hearts.BAL
             };
 
             if (auditModel.UserId != null)
-                audit.UserId = Convert.ToInt32(new Hashing().Decrypt(auditModel.UserId));
+                audit.UserId = Convert.ToInt32(new CustomCrypto().Decrypt(auditModel.UserId));
             a_dal.Add(audit);
         }
     }
