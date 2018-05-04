@@ -70,7 +70,7 @@ namespace Hearts.BAL
                 UserDAL udal = new UserDAL();
                 var user = udal.GetUserByUserName(username);
 
-                string activeGameId = null;
+                string activeGameId = "";
                 if(user.ActiveGameId!=null)
                     activeGameId = hashing.Encrypt(user.ActiveGameId.ToString());
                 return new UserModel
@@ -107,7 +107,7 @@ namespace Hearts.BAL
                 var userId = Convert.ToInt32(hashing.Decrypt(hashedUserId));
                 var user = udal.GetUserById(userId);
 
-                string activeGameId = null;
+                string activeGameId = "";
                 if (user.ActiveGameId != null)
                     activeGameId = hashing.Encrypt(user.ActiveGameId.ToString());
 

@@ -58,6 +58,7 @@ namespace Hearts.ViewModel
             string[] x = card.Split('-');
             this.Value = (Value)Enum.Parse(typeof(Value), x[0]);
             this.Suit = (Suit)Enum.Parse(typeof(Suit), x[1]);
+            this.Points = CalculatePoints(this);
         }
     }
 

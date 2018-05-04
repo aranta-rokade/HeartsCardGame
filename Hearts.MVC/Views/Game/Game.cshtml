@@ -5,131 +5,114 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Game</h2>
-
-<div>
-    <h4>Have fun!</h4>
+<div class="jumbotron">
+    <div id="displayTurn"><h2>Turn : @Html.DisplayFor(model => model.CurrentTurn)</h2></div>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.StartTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.StartTime)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EndTime)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EndTime)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Player1)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Player1.UserName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Player2)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Player2.UserName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Player3)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Player3.UserName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Player4)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Player4.UserName)
-        </dd>
-    </dl>
+    <p>Round : @Html.DisplayFor(model => model.GameRound)</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Player1)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Player2)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Player3)</th>
+                <th scope="col">@Html.DisplayNameFor(model => model.Player4)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">Name</th>
+                <td>@Html.DisplayFor(model => model.Player1.UserName)</td>
+                <td>@Html.DisplayFor(model => model.Player2.UserName)</td>
+                <td>@Html.DisplayFor(model => model.Player3.UserName)</td>
+                <td>@Html.DisplayFor(model => model.Player4.UserName)</td>
+            </tr>
+            <tr>
+                <th scope="row">Current Round Scores</th>
+                <td>@Html.DisplayFor(model => model.Player1.Points)</td>
+                <td>@Html.DisplayFor(model => model.Player2.Points)</td>
+                <td>@Html.DisplayFor(model => model.Player3.Points)</td>
+                <td>@Html.DisplayFor(model => model.Player4.Points)</td>
+            </tr>
+            <tr>
+                <th scope="row">Total Scores</th>
+                <td>@Html.DisplayFor(model => model.Player1.PreviousRoundPoint)</td>
+                <td>@Html.DisplayFor(model => model.Player2.PreviousRoundPoint)</td>
+                <td>@Html.DisplayFor(model => model.Player3.PreviousRoundPoint)</td>
+                <td>@Html.DisplayFor(model => model.Player4.PreviousRoundPoint)</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 <div>
     @using (Html.BeginForm("MakeMove", "Game", FormMethod.Post, new { autocomplete = "off" }))
     {
         @Html.AntiForgeryToken()
         <div class="form-horizontal">
-            <h4>Cards in your hand</h4>
-            <hr />
-
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
                 <div class="radio">
                     @Html.HiddenFor(model => model.GameURL)
-                    @if (Model.PassOrPlay == 1) {
-                        <div>
+                    @if (Model.PassOrPlay == 1)
+                    {
+                        <h3>
                             Pass 3 cards
-                        </div>
-                        if (Model.CardsToPass != null) {
+                        </h3>
+                        if (Model.CardsToPass != null)
+                        {
                             for (var i = 0; i < Model.CardsToPass.Count(); i++)
                             {
                                 @Html.HiddenFor(model => model.CardsToPass[i].Id)
                                 @Html.HiddenFor(model => model.CardsToPass[i].Value)
-                                @Html.HiddenFor(model => model.CardsToPass[i].Suit) 
+                                @Html.HiddenFor(model => model.CardsToPass[i].Suit)
                                 @Html.CheckBoxFor(model => model.CardsToPass[i].IsSlected)
-                                @Html.LabelFor(model=> model.CardsToPass[i].Id, Model.CardsToPass[i].Name)
+                                @Html.LabelFor(model => model.CardsToPass[i].Id, Model.CardsToPass[i].Name)
                             }
                         }
                     }
-                    else if(Model.PassOrPlay == 2)
+                    else if (Model.PassOrPlay == 2)
                     {
-                        <div>
+                        <h3>
                             Play your card
-                        </div>
-                        if (Model.Player1 != null) {
+                        </h3>
+                        if (Model.Player1 != null)
+                        {
                             foreach (var a in Model.Player1.Hand)
                             {
-                                <p>
-                                    @Html.RadioButtonFor(m => m.CardSelectedString, a.Id, new { id=a.Name }) @a.Name
-                                </p>
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.CardSelectedString, a.Id, new { id = a.Name })
+                                    @a.Name
+                               </label>
                             }
                         }
-                        if (Model.Player2 != null) {
+                        if (Model.Player2 != null)
+                        {
                             foreach (var a in Model.Player2.Hand)
                             {
-                                <p>
-                                    @Html.RadioButtonFor(m => m.CardSelectedString, a.Id, new { id = a.Name }) @a.Name
-                                </p>
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.CardSelectedString, a.Id, new { id = a.Name })
+                                    @a.Name
+                                </label>
                             }
                         }
-                        if (Model.Player3 != null) {
+                        if (Model.Player3 != null)
+                        {
                             foreach (var a in Model.Player3.Hand)
                             {
-                                <p>
-                                    @Html.RadioButtonFor(m => m.CardSelectedString, a.Id, new { id = a.Name }) @a.Name
-                                </p>
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.CardSelectedString, a.Id, new { id = a.Name })
+                                    @a.Name
+                                </label>
                             }
                         }
-                        if (Model.Player4 != null) {
+                        if (Model.Player4 != null)
+                        {
                             foreach (var a in Model.Player4.Hand)
                             {
-                                <p>
-                                    @Html.RadioButtonFor(m => m.CardSelectedString, a.Id, new { id = a.Name }) @a.Name
-                                </p>
+                                <label class="radio-inline">
+                                    @Html.RadioButtonFor(m => m.CardSelectedString, a.Id, new { id = a.Name })
+                                    @a.Name
+                                </label>
                             }
                         }
 
@@ -137,15 +120,43 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Login" class="btn btn-primary" />
-                </div>
+              <input type="submit" value="Play" class="btn btn-primary" />
             </div>
+            <div class="form-group">
+                <h3>Game Play</h3>
+            </div>
+    <div class="container">
+        <ul id="discussion"></ul>
+    </div>
         </div>
     }
-
-    @section Scripts {
+    
+    @section scripts {
         @Scripts.Render("~/bundles/jqueryval")
-    }
+        <script src="~/Scripts/jquery.signalR-2.2.3.min.js"></script>
+        <script src="~/signalr/hubs"></script>
 
+        <script>
+            $(function () {
+                // Reference the auto-generated proxy for the hub.
+                var game = $.connection.gameRoomHub;
+                $.connection.hub.start();
+                // Create a function that the hub can call back to display messages.
+                game.client.addNewMessageToPage = function (name, message) {
+                    // Add the message to the page.
+                    $('#discussion').append('<li><strong>' + name
+                        + '</strong>: ' + message + '</li>');
+                };
+                game.client.updateNewPlayer = function (name) {
+                    // Add the message to the page.
+                    document.getElementById('displayTurn').innerHTML = '<h2>Turn : ' + htmlEncode(name) + '</h2>';
+                };
+            });
+            // This optional function html-encodes messages for display in the page.
+            function htmlEncode(value) {
+                var encodedValue = $('<div />').text(value).html();
+                return encodedValue;
+            }
+        </script>
+    }
 </div>

@@ -1,6 +1,8 @@
 ﻿using Hearts.BAL;
 using Hearts.MVC.CustomAttributes;
+using Hearts.MVC.PublisherSubcriber;
 using Hearts.ViewModel;
+using Microsoft.AspNet.SignalR;
 using System;
 using System.Web;
 using System.Web.Mvc;
@@ -46,6 +48,9 @@ namespace Hearts.MVC.Controllers
                     Session["AuthenticationToken"] = guid;
                     //Adding Cookie in Browser
                     Response.Cookies.Add(new HttpCookie("AuthenticationToken", guid));
+
+                    //var hub = GlobalHost.ConnectionManager.GetHubContext<GameRoomHub>();
+                    //hub.Groups.Add(user.UserId,user.ActiveGameId);
 
                     if (Url.IsLocalUrl(returnUrl))
                     {
@@ -150,11 +155,11 @@ namespace Hearts.MVC.Controllers
                 Session.Clear();
                 Session.RemoveAll();
 
-                //Removing _RequestVerificationToken Cookie
-                if (Request.Cookies["_RequestVerificationToken"] != null)
+                //Removing __RequestVerificationToken Cookie
+                if (Request.Cookies["__RequestVerificationToken"] != null)
                 {
-                    Response.Cookies["_RequestVerificationToken"].Value = string.Empty;
-                    Response.Cookies["_RequestVerificationToken"].Expires = DateTime.Now.AddMonths(-10);
+                    Response.Cookies["__RequestVerificationToken"].Value = string.Empty;
+                    Response.Cookies["__RequestVerificationToken"].Expires = DateTime.Now.AddMonths(-10);
                 }
                 //Removing ASP.NET_SessionId Cookie
                 if (Request.Cookies["ASP.NET_SessionId"] != null)

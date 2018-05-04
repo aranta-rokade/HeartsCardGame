@@ -42,6 +42,9 @@ namespace Hearts.ViewModel
         [Display(Name = "Player")]
         public int PlayerTurn { get; set; }
 
+        [Display(Name = "Turn")]
+        public string CurrentTurn { get; set; }
+
         [Display(Name = "Pass or Play")]
         public int PassOrPlay { get; set; }
 

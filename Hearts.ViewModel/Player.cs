@@ -49,6 +49,8 @@ namespace Hearts.ViewModel
             }
         }
 
+        public int PreviousRoundPoint { get; set; }
+
         public Player(int userId, string username)
         {
             Stash = new List<Card>();

@@ -161,17 +161,31 @@ namespace Hearts.DAL
                 if (game == null)
                     throw new CustomException("Invalid Game.");
 
+                game.Turn = update_game.Turn;
+                game.LeadingSuit = update_game.LeadingSuit;
+
+                game.Player1Hand = update_game.Player1Hand;
+                game.Player2Hand = update_game.Player2Hand;
+                game.Player3Hand = update_game.Player3Hand;
+                game.Player4Hand = update_game.Player4Hand;
+
                 if (game.PassOrPlay == 2)
                 {
-                    game.Player1Stash += update_game.Player1Stash;
-                    game.Player2Stash += update_game.Player2Stash;
-                    game.Player3Stash += update_game.Player3Stash;
-                    game.Player4Stash += update_game.Player4Stash;
+                    game.Player1Stash = update_game.Player1Stash;
+                    game.Player2Stash = update_game.Player2Stash;
+                    game.Player3Stash = update_game.Player3Stash;
+                    game.Player4Stash = update_game.Player4Stash;
 
                     game.Player1Score = update_game.Player1Score;
                     game.Player2Score = update_game.Player2Score;
                     game.Player3Score = update_game.Player3Score;
                     game.Player4Score = update_game.Player4Score;
+
+                    game.Player1Card = update_game.Player1Card;
+                    game.Player2Card = update_game.Player2Card;
+                    game.Player3Card = update_game.Player3Card;
+                    game.Player4Card = update_game.Player4Card;
+
                 }
 
                 else if (game.PassOrPlay == 1)
@@ -207,21 +221,16 @@ namespace Hearts.DAL
                                 game.Player2Hand += game.Player4Trash;
                                 game.Player4Hand += game.Player2Trash;
                             }
-                            game.Player1Trash = "";
-                            game.Player2Trash = "";
-                            game.Player3Trash = "";
-                            game.Player4Trash = "";
+                            game.Player1Trash = null;
+                            game.Player2Trash = null;
+                            game.Player3Trash = null;
+                            game.Player4Trash = null;
 
                             game.PassOrPlay = 2;
                         }
                     }
                 }
-
-                game.Player1Hand = update_game.Player1Hand;
-                game.Player2Hand = update_game.Player2Hand;
-                game.Player3Hand = update_game.Player3Hand;
-                game.Player4Hand = update_game.Player4Hand;
-
+               
                 db.SaveChanges();
             }
         }

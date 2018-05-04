@@ -52,10 +52,10 @@
           <Property Name="Turn" Type="int" />
           <Property Name="GameRound" Type="int" />
           <Property Name="PassOrPlay" Type="int" />
-          <Property Name="Player1Card" Type="nvarchar" MaxLength="4" />
-          <Property Name="Player2Card" Type="nvarchar" MaxLength="4" />
-          <Property Name="Player3Card" Type="nvarchar" MaxLength="4" />
-          <Property Name="Player4Card" Type="nvarchar" MaxLength="4" />
+          <Property Name="Player1Card" Type="nvarchar(max)" />
+          <Property Name="Player2Card" Type="nvarchar(max)" />
+          <Property Name="Player3Card" Type="nvarchar(max)" />
+          <Property Name="Player4Card" Type="nvarchar(max)" />
           <Property Name="Player1Trash" Type="nvarchar(max)" />
           <Property Name="Player2Trash" Type="nvarchar(max)" />
           <Property Name="Player3Trash" Type="nvarchar(max)" />
@@ -246,10 +246,10 @@
           <Property Name="Turn" Type="Int32" />
           <Property Name="GameRound" Type="Int32" />
           <Property Name="PassOrPlay" Type="Int32" />
-          <Property Name="Player1Card" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Name="Player2Card" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Name="Player3Card" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
-          <Property Name="Player4Card" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="Player1Card" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Player2Card" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Player3Card" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Player4Card" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Player2Trash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Player1Trash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Player3Trash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />

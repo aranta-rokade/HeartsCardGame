@@ -55,6 +55,9 @@ namespace Hearts.MVC.Controllers
             }
             
         }
-
+        public ActionResult Chat()
+        {
+            return View();
+        }
     }
 }

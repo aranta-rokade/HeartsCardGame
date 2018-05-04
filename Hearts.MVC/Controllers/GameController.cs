@@ -1,9 +1,10 @@
 ﻿using Hearts.BAL;
 using Hearts.MVC.CustomAttributes;
 using Hearts.ViewModel;
+using Microsoft.AspNet.SignalR;
 using System;
-using System.Collections.Generic;
 using System.Web.Mvc;
+using Hearts.MVC.PublisherSubcriber;
 
 namespace Hearts.MVC.Controllers
 {
@@ -67,6 +68,10 @@ namespace Hearts.MVC.Controllers
                 var gameId = gbal.JoinGame(hashedGameId, Session["UserId"].ToString());
                 TempData["IsSuccess"] = "success";
                 TempData["Message"] = "You have joined the game.";
+
+                var hub = GlobalHost.ConnectionManager.GetHubContext<GameRoomHub>();
+                hub.Groups.Add(Session["UserId"].ToString(), gameId);
+                hub.Clients.Group(gameId).addNewMessageToPage(Session["UserName"].ToString() + " joined the game.");
                 return RedirectToAction("Game", "Game", new { hashedGameId=gameId });
             }
             catch (Exception e)
@@ -118,12 +123,33 @@ namespace Hearts.MVC.Controllers
                 {
                     return View(game);
                 }
-                if (g_bal.MakeMove(game, Session["UserId"].ToString()))
+                string message="";
+                string notification = "hello";
+                var gamebal = g_bal.GetGame(game.GameURL, Session["UserId"].ToString());
+
+                if (gamebal.PassOrPlay == 1)
+                {
+                    message = "Your cards are to pass are chosen. Wait for other to choose thier cards.";
+                    notification = " is ready to pass cards.";
+                }
+                else
+                {
+                    message = "Your card is played.";
+                    notification = "played card : " + game.CardSelectedString;
+                }
+
+                var hub = GlobalHost.ConnectionManager.GetHubContext<GameRoomHub>();
+
+                var newGame = g_bal.MakeMove(game, Session["UserId"].ToString());
+                if (newGame!=null)
                 {
                     TempData["IsSuccess"] = "success";
-                    TempData["Message"] = "Your cards are to pass are chosen. Wait for other to choose thier cards.";
+                    TempData["Message"] = message;
+                    hub.Clients.All.addNewMessageToPage(Session["UserName"].ToString(), notification);
+                    hub.Clients.All.updateNewPlayer(newGame.CurrentTurn);
                 }
-                else {
+                else
+                {
                     TempData["IsSuccess"] = "danger";
                     TempData["Message"] = "Your cards are not passed.";
                 }
