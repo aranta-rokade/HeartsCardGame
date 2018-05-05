@@ -51,6 +51,9 @@ namespace Hearts.ViewModel
         [Display(Name = "Selected Card")]
         public Card CardSelected { get; set; }
 
+        public Boolean HeartsPlayed { get; set; }
+        public Boolean SpadesPlayed { get; set; }
+
         public string CardSelectedString { get; set; }
 
         public List<Card> CardsToPass { get; set; }
@@ -58,7 +61,9 @@ namespace Hearts.ViewModel
         [Display(Name = "Round")]
         public int GameRound { get; set; }
 
-        public MoveModel Trick { get; set; } 
+        public MoveModel Trick { get; set; }
+        [Display(Name = "Winner")]
+        public string Winner { get; set; }
 
         public void InitializeDeck()
         {

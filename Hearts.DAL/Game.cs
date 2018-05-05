@@ -57,6 +57,8 @@ namespace Hearts.DAL
         public string Player1Trash { get; set; }
         public string Player3Trash { get; set; }
         public string Player4Trash { get; set; }
+        public bool HeartsPlayed { get; set; }
+        public bool SpadesPlayed { get; set; }
     
         public virtual User User { get; set; }
         public virtual User User1 { get; set; }
@@ -75,6 +77,4 @@ namespace Hearts.DAL
         Aborted,
         Ended
     }
-
-
 }

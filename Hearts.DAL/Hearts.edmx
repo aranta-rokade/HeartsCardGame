@@ -60,6 +60,8 @@
           <Property Name="Player2Trash" Type="nvarchar(max)" />
           <Property Name="Player3Trash" Type="nvarchar(max)" />
           <Property Name="Player4Trash" Type="nvarchar(max)" />
+          <Property Name="HeartsPlayed" Type="bit" Nullable="false" />
+          <Property Name="SpadesPlayed" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Move">
           <Key>
@@ -254,6 +256,8 @@
           <Property Name="Player1Trash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Player3Trash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Player4Trash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HeartsPlayed" Type="Boolean" Nullable="false" />
+          <Property Name="SpadesPlayed" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Move">
           <Key>
@@ -430,6 +434,8 @@
           <EntitySetMapping Name="Games">
             <EntityTypeMapping TypeName="HeartsModel.Game">
               <MappingFragment StoreEntitySet="Game">
+                <ScalarProperty Name="SpadesPlayed" ColumnName="SpadesPlayed" />
+                <ScalarProperty Name="HeartsPlayed" ColumnName="HeartsPlayed" />
                 <ScalarProperty Name="Player4Trash" ColumnName="Player4Trash" />
                 <ScalarProperty Name="Player3Trash" ColumnName="Player3Trash" />
                 <ScalarProperty Name="Player1Trash" ColumnName="Player1Trash" />

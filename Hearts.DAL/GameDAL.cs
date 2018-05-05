@@ -163,6 +163,8 @@ namespace Hearts.DAL
 
                 game.Turn = update_game.Turn;
                 game.LeadingSuit = update_game.LeadingSuit;
+                game.HeartsPlayed = update_game.HeartsPlayed;
+                game.SpadesPlayed = update_game.SpadesPlayed;
 
                 game.Player1Hand = update_game.Player1Hand;
                 game.Player2Hand = update_game.Player2Hand;
@@ -256,6 +258,62 @@ namespace Hearts.DAL
                 game.Player4Hand = initGame.Player4Hand;
 
                 db.SaveChanges();
+            }
+        }
+
+        public string UpdateScores(Game newGame)
+        {
+            using (var db = new HeartsEntities())
+            {
+                var game = db.Games.FirstOrDefault(x => x.GameId == newGame.GameId);
+                if (game == null)
+                {
+                    logger.Info("GameId: {0} - invalid game.", game.GameId);
+                    throw new CustomException("Invalid Game.");
+                }
+                
+                game.Status = newGame.Status;
+                game.Player1Score = newGame.Player1Score;
+                game.Player2Score = newGame.Player2Score;
+                game.Player3Score = newGame.Player3Score;
+                game.Player4Score = newGame.Player4Score;
+
+                UserDAL udal = new UserDAL();
+                var player1 = db.Users.FirstOrDefault(x=>x.UserId == game.Player1);
+                player1.Points = game.Player1Score;
+
+                var player2 = db.Users.FirstOrDefault(x => x.UserId == game.Player2);
+                player2.Points = game.Player2Score;
+
+                var player3 = db.Users.FirstOrDefault(x => x.UserId == game.Player3);
+                player3.Points = game.Player3Score;
+
+                var player4 = db.Users.FirstOrDefault(x => x.UserId == game.Player4);
+                player4.Points = game.Player4Score;
+
+                int min = player1.Points;
+                string winner = player1.Username;
+                if (min < player2.Points)
+                {
+                    min = player2.Points;
+                    winner = player2.Username;
+                }
+                if (min < player3.Points)
+                {
+                    min = player3.Points;
+                    winner = player3.Username;
+                }
+                if (min < player4.Points)
+                {
+                    min = player4.Points;
+                    winner = player4.Username;
+                }
+
+                var winnerUser = db.Users.FirstOrDefault(x => x.Username.Equals(winner));
+                winnerUser.Wins++;
+                db.SaveChanges();
+
+                return winner;
             }
         }
     }

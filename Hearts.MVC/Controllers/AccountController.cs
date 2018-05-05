@@ -23,7 +23,7 @@ namespace Hearts.MVC.Controllers
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
-        [ValidateInput(false)]
+        [ValidateInput(true)]
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
@@ -85,7 +85,7 @@ namespace Hearts.MVC.Controllers
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
-        [ValidateInput(false)]
+        [ValidateInput(true)]
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model)
         {
