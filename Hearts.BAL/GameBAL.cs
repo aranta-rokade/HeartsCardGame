@@ -21,7 +21,7 @@ namespace Hearts.BAL
                 int gameId = gdal.AddGame(playerId);
                 var hashed_gameId = hashing.Encrypt(gameId.ToString());
                 // Wait for other players to join
-                WaitForPlayers(90, gameId);
+                WaitForPlayers(30, gameId);
                 var game = gdal.GetGame(gameId);
                 // check if game room is full
                 if (game.Player1 != null && game.Player2 != null && game.Player3 != null && game.Player4 != null)
@@ -74,25 +74,25 @@ namespace Hearts.BAL
                 {
                     game.Player1 = playerid;
                     var secondsElapsed = (DateTime.Now).Subtract(game.StartTime).Seconds;
-                    time = 90 - secondsElapsed;
+                    time = 30 - secondsElapsed;
                 }
                 else if (game.Player2 == null)
                 {
                     game.Player2 = playerid;
                     var secondsElapsed = (DateTime.Now).Subtract(game.StartTime).Seconds;
-                    time = 90 - secondsElapsed;
+                    time = 30 - secondsElapsed;
                 }
                 else if (game.Player3 == null)
                 {
                     game.Player3 = playerid;
                     var secondsElapsed = (DateTime.Now).Subtract(game.StartTime).Seconds;
-                    time = 90 - secondsElapsed;
+                    time = 30 - secondsElapsed;
                 }
                 else if (game.Player4 == null)
                 {
                     game.Player4 = playerid;
                     var secondsElapsed = (DateTime.Now).Subtract(game.StartTime).Seconds;
-                    time = 90 - secondsElapsed;
+                    time = 30 - secondsElapsed;
                 }
 
                 var new_game = gdal.AddPlayer(playerid, game.GameId);
@@ -213,12 +213,22 @@ namespace Hearts.BAL
                                 throw new CustomException("Play the leading suit.");
                         }
                         // else play any suit, card is accepted
+                        if (gameModel.CardSelected.Suit == Suit.Hearts)
+                            game.HeartsPlayed = true;
+                        if (gameModel.CardSelected.Suit == Suit.Spades)
+                            game.SpadesPlayed = true;
                     }
                     else
                     {
                         if (cardsInHand.Count == 13)
                             if (!(gameModel.CardSelected.Suit == Suit.Clubs && gameModel.CardSelected.Value == Value.Two))
                                 throw new CustomException("First Card to the first trick is Two of Clubs");
+
+                        if (game.HeartsPlayed==false && gameModel.CardSelected.Suit == Suit.Hearts)
+                            throw new CustomException("You cannot play Hearts as a leading suit, untill Hearts are broken.");
+                        if (game.SpadesPlayed == false && gameModel.CardSelected.Suit == Suit.Spades)
+                            throw new CustomException("You cannot play Spades as a leading suit, untill Spades are broken.");
+
                         //update leading suit
                         game.LeadingSuit = (int)gameModel.CardSelected.Suit;
                     }
@@ -349,9 +359,7 @@ namespace Hearts.BAL
                     {
                         game.Player4Hand = newHand;
                     }
-
                     
-
                     if (game.PassOrPlay == 1) // pass the trass
                     {
                         foreach (var card in gameModel.CardsToPass)
@@ -368,7 +376,9 @@ namespace Hearts.BAL
                             }
                     }
                     gdal.UpdateGameAfterMove(game, userId);
-                    
+
+                    string winner=null;
+
                     // if PassOrPlay == 2 && all cards of all the players are over
                     // call Inititalize round function
                     if (game.PassOrPlay == 2) // play 
@@ -376,10 +386,16 @@ namespace Hearts.BAL
                         if (game.Player1Hand.Length == 0 && game.Player2Hand.Length == 0
                             && game.Player1Hand.Length == 0 && game.Player1Hand.Length == 0)
                         {
+                            if (game.GameRound == 4)
+                            {
+                                winner = UpdateScores(gameModel);
+                            }
                             InitializeRound(game.GameId);
                         }
                     }
-                    return GetGame(gameModel.GameURL, hashedUserId);
+                    var returnModel = GetGame(gameModel.GameURL, hashedUserId);
+                    returnModel.Winner = winner;
+                    return returnModel;
                 }
                 return null;
             }
@@ -459,6 +475,10 @@ namespace Hearts.BAL
                         gameModel.PlayerTurn = game.Turn.Value;
                     gameModel.CurrentTurn = udal.GetUserById(gameModel.PlayerTurn).Username;
 
+                    gameModel.HeartsPlayed = game.HeartsPlayed;
+                    gameModel.SpadesPlayed = game.SpadesPlayed;
+
+
                     if (game.LeadingSuit != null)
                     {
                         gameModel.Trick = new MoveModel();
@@ -484,6 +504,8 @@ namespace Hearts.BAL
                             gameModel.Trick.Card4.ConvertStringToCard(game.Player4Card);
                         }
                     }
+                    gameModel.SpadesPlayed = game.SpadesPlayed;
+                    gameModel.HeartsPlayed = game.HeartsPlayed;
 
                     if (game.Player1 == userId)
                     {
@@ -625,8 +647,11 @@ namespace Hearts.BAL
             game.PassOrPlay = 1;
             game.GameRound = 1;
             game.LeadingSuit = null;
+            game.HeartsPlayed = false;
+            game.SpadesPlayed = false;
 
-            if(game.Player1!=null)
+
+            if (game.Player1!=null)
                 foreach (var card in gameModel.Player1.Hand)
                 {
                     if (card.Suit == Suit.Clubs && card.Value == Value.Two)
@@ -674,6 +699,9 @@ namespace Hearts.BAL
             game.GameRound++;
 
             game.LeadingSuit = null;
+
+            game.HeartsPlayed = false;
+            game.SpadesPlayed = false;
 
             game.Player1Stash = null;
             game.Player2Stash = null;
@@ -750,6 +778,18 @@ namespace Hearts.BAL
                 
             }
             return cards;
+        }
+
+        private string UpdateScores(GameModel gameModel)
+        {
+            GameDAL gdal = new GameDAL();
+            var game = new Game();
+            game.Status = (int)GameStatus.Ended;
+            game.Player1Score = gameModel.Player1.Points;
+            game.Player2Score = gameModel.Player2.Points;
+            game.Player3Score = gameModel.Player3.Points;
+            game.Player4Score = gameModel.Player4.Points;
+            return gdal.UpdateScores(game);
         }
 
     }
